@@ -1,7 +1,7 @@
 package Services;
 
 public abstract class ServicesDecorator extends Resident {
-    private Float cost;
+    private double cost;
     private Resident decoratedResident;
 
     public ServicesDecorator(Resident decoratedResident) {
@@ -17,11 +17,11 @@ public abstract class ServicesDecorator extends Resident {
         this.decoratedResident = decoratedResident;
     }
 
-    public Float getCost() {
+    public double getCost() {
         return cost;
     }
 
-    public void setCost(Float cost) {
+    public void setCost(double cost) {
         this.cost = cost;
     }
 }

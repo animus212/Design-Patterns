@@ -9,7 +9,7 @@ public class BedAndBreakfast extends ServicesDecorator {
     }
 
     @Override
-    public Float getCost() {
+    public double getCost() {
         return (float)100.0;
     }
 }

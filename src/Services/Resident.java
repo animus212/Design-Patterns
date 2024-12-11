@@ -10,7 +10,7 @@ public class Resident {
      Integer durationOfStay = 0;
      Room assignedRoom = null;
      ArrayList<Resident> servicesList = null;
-     Float totalCost = 0f;
+     double totalCost = 0f;
 
     public Resident() {
         this.servicesList = new ArrayList<>();
@@ -56,17 +56,17 @@ public class Resident {
         this.servicesList = servicesList;
     }
 
-    public Float getTotalCost() {
+    public double getTotalCost() {
         return totalCost;
     }
 
-    public void setTotalCost(Float totalCost) {
+    public void setTotalCost(double totalCost) {
         this.totalCost = totalCost;
     }
 
     @Override
     public String toString() {
-        return "Services{" +
+        return "Resident{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
                 ", durationOfStay=" + durationOfStay +

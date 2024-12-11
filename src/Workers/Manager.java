@@ -98,4 +98,24 @@ public class Manager{ //singleton
             System.out.println(worker.toString());
         }
     }
+
+    public void ViewWorkerDetails(){
+        System.out.println(hotel.getWorkers());
+    }
+
+    public void ViewResidentInformation(){
+        System.out.println(hotel.getResidents());
+    }
+
+    public void weeklyIncomeReport(){
+        hotel.weeklyIncome();
+    }
+
+    public void monthlyIncomeReport(){
+        hotel.monthlyIncome();
+    }
+
+    public void yearlyIncomeReport(){
+        hotel.annualIncome();
+    }
 }
