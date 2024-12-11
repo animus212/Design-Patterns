@@ -9,7 +9,7 @@ public class HalfBoard extends ServicesDecorator {
     }
 
     @Override
-    public Float getCost() {
+    public double getCost() {
         return getDecoratedResident().getTotalCost();
     }
 

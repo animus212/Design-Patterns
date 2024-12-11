@@ -10,9 +10,8 @@ public class Worker {
     private String jobTitle;
 
     public Worker() {
-
-        lastID += 1;
         ID = lastID;
+        lastID += 1;
     }
 
     public Integer getID() {
