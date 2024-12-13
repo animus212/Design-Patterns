@@ -1,35 +1,35 @@
-package HOTEL;
+package Registry;
 
-import Rooms.Room;
 import Resident.Resident;
-import Workers.Receptionist;
-import Workers.Worker;
+import Room.*;
+import Worker.Receptionist;
+import Worker.Worker;
 
 import java.util.ArrayList;
 
-public class Hotel {//singleton
-private ArrayList<Worker> workers;
-private ArrayList<Receptionist> receptionists;
-private ArrayList<Resident> residents;
-private ArrayList<Room> rooms;
+public class Registry {
+    private ArrayList<Worker> workers;
+    private ArrayList<Receptionist> receptionists;
+    private ArrayList<Resident> residents;
+    private ArrayList<Room> rooms;
 
-private double bookingIncome;
-private double halfBoardServicesIncome;
-private double fullBoardServicesIncome;
-private double bedAndBreakfastServicesIncome;
-private double totalIncome;
+    private double bookingIncome;
+    private double halfBoardServicesIncome;
+    private double fullBoardServicesIncome;
+    private double bedAndBreakfastServicesIncome;
+    private double totalIncome;
 
-private static Hotel hotelInstance;
+    private static Registry registry = new Registry();
 
-    private Hotel() {
-        workers = new ArrayList<>();
+    private Registry() {
+        workers = new ArrayList<Worker>();
+        receptionists = new ArrayList<Receptionist>();
+        residents = new ArrayList<Resident>();
+        rooms = new ArrayList<Room>();
     }
 
-    public static Hotel getHotelInstance(){
-        if(hotelInstance == null){
-            hotelInstance = new Hotel();
-        }
-        return hotelInstance;
+    public static Registry getInstance() {
+        return registry;
     }
 
     public ArrayList<Worker> getWorkers() {
@@ -74,13 +74,7 @@ private static Hotel hotelInstance;
 
     @Override
     public String toString() {
-        return "Hotel{" +
-                "workers=" + workers +
-                ", receptionists=" + receptionists +
-                ", residents=" + residents +
-                ", rooms=" + rooms +
-                ", totalIncome=" + totalIncome +
-                '}';
+        return "Hotel{" + "workers=" + workers + ", receptionists=" + receptionists + ", residents=" + residents + ", rooms=" + rooms + ", totalIncome=" + totalIncome + '}';
     }
 
     public void monthlyIncome() {

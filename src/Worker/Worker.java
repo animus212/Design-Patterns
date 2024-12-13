@@ -1,9 +1,9 @@
-package Workers;
+package Worker;
 
 public class Worker {
-    private static Integer lastID = 0;
+    private static int lastID = 0;
     private String name;
-    private Integer ID;
+    private int ID;
     private String email;
     private String phoneNumber;
     private Double salary;
@@ -72,13 +72,6 @@ public class Worker {
 
     @Override
     public String toString() {
-        return "Worker{" +
-                "name='" + name + '\'' +
-                ", ID=" + ID +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", salary=" + salary +
-                ", jobTitle='" + jobTitle + '\'' +
-                '}';
+        return "Worker{" + "name='" + name + '\'' + ", ID=" + ID + ", email='" + email + '\'' + ", phoneNumber='" + phoneNumber + '\'' + ", salary=" + salary + ", jobTitle='" + jobTitle + '\'' + '}';
     }
 }

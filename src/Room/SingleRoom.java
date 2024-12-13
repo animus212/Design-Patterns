@@ -1,4 +1,4 @@
-package Rooms;
+package Room;
 
 public class SingleRoom extends Room {
     public SingleRoom() {

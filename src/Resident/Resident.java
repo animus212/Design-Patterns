@@ -1,19 +1,19 @@
 package Resident;
 
-import Rooms.Room;
+import Room.Room;
 
 import java.util.ArrayList;
 
 public class Resident {
-     String name = "";
-     Integer age = 0;
-     Integer durationOfStay = 0;
-     Room assignedRoom = null;
-     ArrayList<Resident> servicesList = null;
-     double totalCost = 0f;
+    String name = "";
+    int age = 0;
+    int durationOfStay = 0;
+    Room assignedRoom = null;
+    ArrayList<String> serviceList = null;
+    double totalCost = 0;
 
     public Resident() {
-        this.servicesList = new ArrayList<>();
+        this.serviceList = new ArrayList<String>();
     }
 
     public String getName() {
@@ -32,11 +32,11 @@ public class Resident {
         this.age = age;
     }
 
-    public Integer getDurationOfStay() {
+    public int getDurationOfStay() {
         return durationOfStay;
     }
 
-    public void setDurationOfStay(Integer durationOfStay) {
+    public void setDurationOfStay(int durationOfStay) {
         this.durationOfStay = durationOfStay;
     }
 
@@ -48,12 +48,12 @@ public class Resident {
         this.assignedRoom = assignedRoom;
     }
 
-    public ArrayList<Resident> getServicesList() {
-        return servicesList;
+    public ArrayList<String> getServicesList() {
+        return serviceList;
     }
 
-    public void setServicesList(ArrayList<Resident> servicesList) {
-        this.servicesList = servicesList;
+    public void setServicesList(ArrayList<String> serviceList) {
+        this.serviceList = serviceList;
     }
 
     public double getTotalCost() {
@@ -66,13 +66,6 @@ public class Resident {
 
     @Override
     public String toString() {
-        return "Resident{" +
-                "name='" + name + '\'' +
-                ", age=" + age +
-                ", durationOfStay=" + durationOfStay +
-                ", assignedRoom=" + assignedRoom +
-                ", servicesList=" + servicesList +
-                ", totalCost=" + totalCost +
-                '}';
+        return "Resident{" + "name='" + name + '\'' + ", age=" + age + ", durationOfStay=" + durationOfStay + ", assignedRoom=" + assignedRoom + ", servicesList=" + serviceList + ", totalCost=" + totalCost + '}';
     }
 }

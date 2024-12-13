@@ -1,10 +1,9 @@
-package Rooms;
+package Room;
 
 public abstract class Room {
     protected final String type;
     protected double cost;
     protected RoomState state;
-
 
     public Room(String type, double cost) {
         this.type = type;
@@ -19,21 +18,23 @@ public abstract class Room {
     }
 
     public boolean checkIn() {
-        if (this.state instanceof AvailableState){
+        if (this.state instanceof AvailableState) {
             this.state.checkIn(this);
+
             return true;
-        }
-        else
+        } else {
             return false;
+        }
     }
 
     public boolean checkOut() {
-        if (this.state instanceof OccupiedState){
+        if (this.state instanceof OccupiedState) {
             this.state.checkOut(this);
+
             return true;
-        }
-        else
+        } else {
             return false;
+        }
     }
 
     public RoomState getState() {
@@ -48,8 +49,6 @@ public abstract class Room {
         return type;
     }
 
-
-
     public double getCost() {
         return cost;
     }
@@ -58,16 +57,12 @@ public abstract class Room {
         this.cost = cost;
     }
 
-    public boolean occupied(){
+    public boolean occupied() {
         return this.state instanceof OccupiedState;
     }
 
     @Override
     public String toString() {
-        return "Room{" +
-                "type='" + type + '\'' +
-                ", cost=" + cost +
-                ", state=" + state +
-                '}';
+        return "Room{" + "type='" + type + '\'' + ", cost=" + cost + ", state=" + state + '}';
     }
 }

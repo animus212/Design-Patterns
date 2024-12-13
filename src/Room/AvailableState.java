@@ -1,10 +1,10 @@
-package Rooms;
+package Room;
 
-public class AvailableState implements RoomState{
-
+public class AvailableState implements RoomState {
     @Override
     public void checkIn(Room room) {
         System.out.println("Room checked in.");
+
         room.setState(new OccupiedState());
     }
 
