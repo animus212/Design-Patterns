@@ -1,6 +1,5 @@
 package Boarding;
 
 public interface BoardingType {
-
-    double getCost();
+  double getCost();
 }
