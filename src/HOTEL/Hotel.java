@@ -1,7 +1,7 @@
 package HOTEL;
 
 import Rooms.Room;
-import Services.Resident;
+import Resident.Resident;
 import Workers.Receptionist;
 import Workers.Worker;
 

@@ -58,6 +58,10 @@ public abstract class Room {
         this.cost = cost;
     }
 
+    public boolean occupied(){
+        return this.state instanceof OccupiedState;
+    }
+
     @Override
     public String toString() {
         return "Room{" +

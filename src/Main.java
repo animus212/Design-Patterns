@@ -1,6 +1,6 @@
 import HOTEL.Hotel;
 import Rooms.RoomFactory;
-import Services.Resident;
+import Resident.Resident;
 import Workers.Manager;
 
 public class Main {
