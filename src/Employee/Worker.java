@@ -1,33 +1,18 @@
-package Worker;
+package Employee;
 
 public class Worker {
-    private static int lastID = 0;
     private String name;
-    private int ID;
     private String email;
     private String phoneNumber;
     private Double salary;
     private String jobTitle;
 
-    public Worker() {
-        ID = lastID;
-        lastID += 1;
-    }
-
-    public Integer getID() {
-        return ID;
-    }
-
-    public void setID(Integer ID) {
-        this.ID = ID;
-    }
-
-    public static Integer getLastID() {
-        return lastID;
-    }
-
-    public static void setLastID(Integer lastID) {
-        Worker.lastID = lastID;
+    public Worker(String name, String email, String phoneNumber, Double salary, String jobTitle) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.salary = salary;
+        this.jobTitle = jobTitle;
     }
 
     public String getName() {
@@ -68,10 +53,5 @@ public class Worker {
 
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
-    }
-
-    @Override
-    public String toString() {
-        return "Worker{" + "name='" + name + '\'' + ", ID=" + ID + ", email='" + email + '\'' + ", phoneNumber='" + phoneNumber + '\'' + ", salary=" + salary + ", jobTitle='" + jobTitle + '\'' + '}';
     }
 }

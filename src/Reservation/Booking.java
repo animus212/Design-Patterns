@@ -1,4 +1,4 @@
-package Booking;
+package Reservation;
 
 import Room.*;
 import Boarding.*;
@@ -6,6 +6,7 @@ import Boarding.*;
 import java.time.LocalDate;
 
 public class Booking {
+    private static int lastId = 0;
     private final int id;
     private Room room;
     private int durationOfStay;
@@ -13,13 +14,15 @@ public class Booking {
     private String boardingType;
     private final LocalDate date;
 
-    public Booking(int id, Room room, int durationOfStay, String boardingType, LocalDate date) {
-        this.id = id;
+    public Booking(Room room, int durationOfStay, String boardingType, LocalDate date) {
+        this.id = lastId;
         this.room = room;
         this.durationOfStay = durationOfStay;
         this.factory = new BoardingFactory();
         this.boardingType = boardingType;
         this.date = date;
+
+        lastId += 1;
     }
 
     public LocalDate getDate() {

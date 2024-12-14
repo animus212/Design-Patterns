@@ -1,34 +1,27 @@
 package Registry;
 
-import Resident.Resident;
+import Reservation.*;
 import Room.*;
-import Worker.Receptionist;
-import Worker.Worker;
+import Employee.Worker;
 
 import java.util.ArrayList;
 
 public class Registry {
     private ArrayList<Worker> workers;
-    private ArrayList<Receptionist> receptionists;
     private ArrayList<Resident> residents;
     private ArrayList<Room> rooms;
-
-    private double bookingIncome;
-    private double halfBoardServicesIncome;
-    private double fullBoardServicesIncome;
-    private double bedAndBreakfastServicesIncome;
-    private double totalIncome;
+    private ArrayList<Booking> bookings;
 
     private static Registry registry = new Registry();
 
     private Registry() {
-        workers = new ArrayList<Worker>();
-        receptionists = new ArrayList<Receptionist>();
-        residents = new ArrayList<Resident>();
-        rooms = new ArrayList<Room>();
+        this.workers = new ArrayList<Worker>();
+        this.residents = new ArrayList<Resident>();
+        this.rooms = new ArrayList<Room>();
+        this.bookings = new ArrayList<Booking>();
     }
 
-    public static Registry getInstance() {
+    public Registry getInstance() {
         return registry;
     }
 
@@ -40,28 +33,12 @@ public class Registry {
         this.workers = workers;
     }
 
-    public ArrayList<Receptionist> getReceptionists() {
-        return receptionists;
-    }
-
-    public void setReceptionists(ArrayList<Receptionist> receptionists) {
-        this.receptionists = receptionists;
-    }
-
     public ArrayList<Resident> getResidents() {
         return residents;
     }
 
     public void setResidents(ArrayList<Resident> residents) {
         this.residents = residents;
-    }
-
-    public double getTotalIncome() {
-        return totalIncome;
-    }
-
-    public void setTotalIncome(double totalIncome) {
-        this.totalIncome = totalIncome;
     }
 
     public ArrayList<Room> getRooms() {
@@ -72,17 +49,11 @@ public class Registry {
         this.rooms = rooms;
     }
 
-    @Override
-    public String toString() {
-        return "Hotel{" + "workers=" + workers + ", receptionists=" + receptionists + ", residents=" + residents + ", rooms=" + rooms + ", totalIncome=" + totalIncome + '}';
+    public ArrayList<Booking> getBookings() {
+        return bookings;
     }
 
-    public void monthlyIncome() {
-    }
-
-    public void weeklyIncome() {
-    }
-
-    public void annualIncome() {
+    public void setBookings(ArrayList<Booking> bookings) {
+        this.bookings = bookings;
     }
 }
