@@ -18,7 +18,7 @@ public class HotelManagement extends JFrame{
     private JLabel passwordLabel;
     private JButton workersButton;
     private JButton residentsButton;
-    private JButton reportButton;
+    private JButton incomeButton;
     private JButton roomsButton;
     private JPanel manageWorkers;
     private JTable workersTable;
@@ -32,6 +32,11 @@ public class HotelManagement extends JFrame{
     private JButton addResident;
     private JScrollPane residentScrollPane;
     private JPanel manageResidents;
+    private JPanel incomePanel;
+    private JComboBox incomeBox;
+    private JButton showIncome;
+    private JLabel incomeType;
+    private JTextField incomeValue;
 
     public HotelManagement() {
         setContentPane(ContainerPanel);
@@ -41,6 +46,11 @@ public class HotelManagement extends JFrame{
         setLocationRelativeTo(null);
         setVisible(true);
         subMenu.setVisible(false);
+
+
+        incomeBox.addItem("Annual");
+        incomeBox.addItem("Monthly");
+        incomeBox.addItem("Weekly");
 
         String[] workerColumnNames = {"Name", "E-mail","Phone Number","Salary", "Job Title"};
         Object[][] data = {
@@ -60,15 +70,18 @@ public class HotelManagement extends JFrame{
                 String username = usernameField.getText();
                 char [] passchars= passwordField.getPassword();
                 String Pass = new String(passchars);
-                if (Pass.equals("123") && username.equalsIgnoreCase("manager")){
+                if (Pass.equals("0") && username.equalsIgnoreCase("m")){
                     subMenu.setVisible(true);
                     addResident.setVisible(false);
                     updateResident.setVisible(false);
                     deleteResident.setVisible(false);
-                } else if (Pass.equals("123") && username.equalsIgnoreCase("receptionist")) {
+                } else if (Pass.equals("1") && username.equalsIgnoreCase("r")) {
                     subMenu.setVisible(true);
                     workersButton.setVisible(false);
                     manageWorkers.setVisible(false);
+                    incomeButton.setVisible(false);
+                    incomePanel.setVisible(false);
+                    roomsButton.setVisible(false);
                 }
                 else JOptionPane.showMessageDialog(HotelManagement.this, "user not found");
             }
@@ -85,6 +98,19 @@ public class HotelManagement extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
                 cardLayout.show(contentPanel, "residentCard");
+            }
+        });
+        incomeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
+                cardLayout.show(contentPanel, "incomeCard");
+            }
+        });
+        showIncome.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                incomeValue.setVisible(true);
             }
         });
     }
