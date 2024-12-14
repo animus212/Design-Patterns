@@ -11,7 +11,7 @@ public class EditWorker extends WorkerOperation {
     protected void preOperation() {
         for (Worker storedWorker : registry.getWorkers()) {
             if (storedWorker.getId() == worker.getId()) {
-                registry.removeWorker(storedWorker);  // Remove worker here because newWorker is edited
+                registry.removeWorker(storedWorker);  // Remove storedWorker here because worker is edited
 
                 return;
             }

@@ -49,6 +49,14 @@ public class Registry {
         this.residents = residents;
     }
 
+    public void addResident(Resident newResident) {
+        residents.add(newResident);
+    }
+
+    public void removeResident(Resident oldResident) {
+        residents.remove(oldResident);
+    }
+
     public ArrayList<Room> getRooms() {
         return rooms;
     }
