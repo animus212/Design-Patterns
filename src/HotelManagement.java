@@ -37,6 +37,19 @@ public class HotelManagement extends JFrame{
     private JButton showIncome;
     private JLabel incomeType;
     private JTextField incomeValue;
+    private JPanel addResidentPanel;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JTextField textField3;
+    private JLabel Resname;
+    private JLabel ResPhone;
+    private JTextField textField4;
+    private JButton Book;
+    private JLabel ResAge;
+    private JLabel Duration;
+    private JPanel RoomsPanel;
+    private JTable RoomsTable;
+    private JButton logoutButton;
 
     public HotelManagement() {
         setContentPane(ContainerPanel);
@@ -51,17 +64,6 @@ public class HotelManagement extends JFrame{
         incomeBox.addItem("Annual");
         incomeBox.addItem("Monthly");
         incomeBox.addItem("Weekly");
-
-        String[] workerColumnNames = {"Name", "E-mail","Phone Number","Salary", "Job Title"};
-        Object[][] data = {
-                {"John Doe", "john.doe@example.com", "123-456-7890", "$50,000", "Manager"},
-                {"Jane Smith", "jane.smith@example.com", "987-654-3210", "$45,000", "Assistant"},
-                {"Alice Brown", "alice.brown@example.com", "555-123-4567", "$48,000", "Coordinator"},
-                {"Bob White", "bob.white@example.com", "444-555-6666", "$52,000", "Supervisor"},
-                {"Tom Green", "tom.green@example.com", "333-777-8888", "$47,000", "Analyst"}
-        };
-        DefaultTableModel defaultTableModel = new DefaultTableModel(data,workerColumnNames);
-        workersTable.setModel(defaultTableModel);
 
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -80,7 +82,6 @@ public class HotelManagement extends JFrame{
                     workersButton.setVisible(false);
                     manageWorkers.setVisible(false);
                     incomeButton.setVisible(false);
-                    incomePanel.setVisible(false);
                     roomsButton.setVisible(false);
                 }
                 else JOptionPane.showMessageDialog(HotelManagement.this, "user not found");
@@ -89,6 +90,16 @@ public class HotelManagement extends JFrame{
         workersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String[] workerColumnNames = {"Name", "E-mail","Phone Number","Salary", "Job Title"};
+                Object[][] data = {
+                        {"John Doe", "john.doe@example.com", "123-456-7890", "$50,000", "Manager"},
+                        {"Jane Smith", "jane.smith@example.com", "987-654-3210", "$45,000", "Assistant"},
+                        {"Alice Brown", "alice.brown@example.com", "555-123-4567", "$48,000", "Coordinator"},
+                        {"Bob White", "bob.white@example.com", "444-555-6666", "$52,000", "Supervisor"},
+                        {"Tom Green", "tom.green@example.com", "333-777-8888", "$47,000", "Analyst"}
+                };
+                DefaultTableModel defaultTableModel = new DefaultTableModel(data,workerColumnNames);
+                workersTable.setModel(defaultTableModel);
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
                 cardLayout.show(contentPanel, "workerCard");
             }
@@ -96,6 +107,9 @@ public class HotelManagement extends JFrame{
         residentsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String[] ResColumnNames = {"Name","Age","Phone Number","Booking ID"};
+                DefaultTableModel defaultTableModel = new DefaultTableModel(null,ResColumnNames);
+                residentsTable.setModel(defaultTableModel);
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
                 cardLayout.show(contentPanel, "residentCard");
             }
@@ -111,6 +125,38 @@ public class HotelManagement extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 incomeValue.setVisible(true);
+            }
+        });
+        addResident.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
+                cardLayout.show(contentPanel, "BookingCard");
+            }
+        });
+        Book.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(HotelManagement.this,"Resident Added");
+                CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
+                cardLayout.show(contentPanel, "residentCard");
+            }
+        });
+        roomsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] RoomsColumnNames = {"Room Number","Room State"};
+                DefaultTableModel defaultTableModel = new DefaultTableModel(null,RoomsColumnNames);
+                RoomsTable.setModel(defaultTableModel);
+                CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
+                cardLayout.show(contentPanel, "RoomsCard");
+            }
+        });
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new HotelManagement();
             }
         });
     }
