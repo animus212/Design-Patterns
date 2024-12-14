@@ -12,7 +12,7 @@ public class Registry {
     private ArrayList<Room> rooms;
     private ArrayList<Booking> bookings;
 
-    private static Registry registry = new Registry();
+    private static final Registry registry = new Registry();
 
     private Registry() {
         this.workers = new ArrayList<Worker>();
@@ -21,7 +21,7 @@ public class Registry {
         this.bookings = new ArrayList<Booking>();
     }
 
-    public Registry getInstance() {
+    public static Registry getInstance() {
         return registry;
     }
 
