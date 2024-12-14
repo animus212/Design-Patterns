@@ -33,6 +33,14 @@ public class Registry {
         this.workers = workers;
     }
 
+    public void addWorker(Worker newWorker) {
+        workers.add(newWorker);
+    }
+
+    public void removeWorker(Worker oldWorker) {
+        workers.remove(oldWorker);
+    }
+
     public ArrayList<Resident> getResidents() {
         return residents;
     }
