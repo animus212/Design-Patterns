@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class HotelManagement extends JFrame{
+public class HotelManagement extends JFrame {
     private JPanel ContainerPanel;
     private JLabel hotelName;
     private JPanel subMenu;
@@ -64,13 +64,12 @@ public class HotelManagement extends JFrame{
 
     public HotelManagement() {
         setContentPane(ContainerPanel);
-        setTitle("hotel manager");
+        setTitle("Hotel Management System");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(600,400);
+        setSize(600, 400);
         setLocationRelativeTo(null);
         setVisible(true);
         subMenu.setVisible(false);
-
 
         incomeBox.addItem("Annual");
         incomeBox.addItem("Monthly");
@@ -78,35 +77,38 @@ public class HotelManagement extends JFrame{
         RoomType_Combox.addItem("Single");
         RoomType_Combox.addItem("Double");
         RoomType_Combox.addItem("Triple");
-        BoardingType_Combox.addItem("Bed&Breakfast");
-        BoardingType_Combox.addItem("Half");
-        BoardingType_Combox.addItem("Full");
+        BoardingType_Combox.addItem("Bed & Breakfast");
+        BoardingType_Combox.addItem("Half Board");
+        BoardingType_Combox.addItem("Full Board");
+
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 String username = usernameField.getText();
-                char [] passchars= passwordField.getPassword();
+                char[] passchars = passwordField.getPassword();
                 String Pass = new String(passchars);
-                if (Pass.equals("0") && username.equalsIgnoreCase("m")){
+
+                if (Pass.equals("123") && username.equalsIgnoreCase("Man")) {
                     subMenu.setVisible(true);
                     addResident.setVisible(false);
                     updateResident.setVisible(false);
                     deleteResident.setVisible(false);
-                } else if (Pass.equals("1") && username.equalsIgnoreCase("r")) {
+                } else if (Pass.equals("456") && username.equalsIgnoreCase("Rec")) {
                     subMenu.setVisible(true);
                     workersButton.setVisible(false);
                     manageWorkers.setVisible(false);
                     incomeButton.setVisible(false);
                     roomsButton.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(HotelManagement.this, "User Not Found!");
                 }
-                else JOptionPane.showMessageDialog(HotelManagement.this, "user not found");
             }
         });
+
         workersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[] workerColumnNames = {"Name", "E-mail","Phone Number","Salary", "Job Title"};
+                String[] workerColumnNames = {"Name", "E-mail", "Phone Number", "Salary", "Job Title"};
                 Object[][] data = {
                         {"John Doe", "john.doe@example.com", "123-456-7890", "$50,000", "Manager"},
                         {"Jane Smith", "jane.smith@example.com", "987-654-3210", "$45,000", "Assistant"},
@@ -114,22 +116,24 @@ public class HotelManagement extends JFrame{
                         {"Bob White", "bob.white@example.com", "444-555-6666", "$52,000", "Supervisor"},
                         {"Tom Green", "tom.green@example.com", "333-777-8888", "$47,000", "Analyst"}
                 };
-                DefaultTableModel defaultTableModel = new DefaultTableModel(data,workerColumnNames);
+                DefaultTableModel defaultTableModel = new DefaultTableModel(data, workerColumnNames);
                 workersTable.setModel(defaultTableModel);
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
                 cardLayout.show(contentPanel, "workerCard");
             }
         });
+
         residentsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[] ResColumnNames = {"Name","Age","Phone Number","Booking ID"};
-                DefaultTableModel defaultTableModel = new DefaultTableModel(null,ResColumnNames);
+                String[] ResColumnNames = {"Name", "Age", "Phone Number", "Booking ID"};
+                DefaultTableModel defaultTableModel = new DefaultTableModel(null, ResColumnNames);
                 residentsTable.setModel(defaultTableModel);
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
                 cardLayout.show(contentPanel, "residentCard");
             }
         });
+
         incomeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -137,12 +141,14 @@ public class HotelManagement extends JFrame{
                 cardLayout.show(contentPanel, "incomeCard");
             }
         });
+
         showIncome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 incomeValue.setVisible(true);
             }
         });
+
         addResident.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -150,24 +156,27 @@ public class HotelManagement extends JFrame{
                 cardLayout.show(contentPanel, "BookingCard");
             }
         });
+
         Book.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(HotelManagement.this,"Resident Added");
+                JOptionPane.showMessageDialog(HotelManagement.this, "Resident Added");
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
                 cardLayout.show(contentPanel, "residentCard");
             }
         });
+
         roomsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[] RoomsColumnNames = {"Room Number","Room State"};
-                DefaultTableModel defaultTableModel = new DefaultTableModel(null,RoomsColumnNames);
+                String[] RoomsColumnNames = {"Room Number", "Room State"};
+                DefaultTableModel defaultTableModel = new DefaultTableModel(null, RoomsColumnNames);
                 RoomsTable.setModel(defaultTableModel);
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
                 cardLayout.show(contentPanel, "RoomsCard");
             }
         });
+
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -175,6 +184,7 @@ public class HotelManagement extends JFrame{
                 new HotelManagement();
             }
         });
+
         addWorker.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -182,6 +192,7 @@ public class HotelManagement extends JFrame{
                 cardLayout.show(contentPanel, "addWorkerCard");
             }
         });
+
         AddWorker_Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
