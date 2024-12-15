@@ -1,26 +1,26 @@
 package Reservation;
 
-import Room.*;
-import Boarding.*;
+import Boarding.BoardingFactory;
+import Registry.Registry;
 
 import java.time.LocalDate;
 
-public class Booking {
+public class Booking implements Cloneable {
     private static int lastId = 0;
     private final int id;
-    private Room room;
+    private int roomNumber; // Room index in the registry since rooms never change.
     private int durationOfStay;
-    private BoardingFactory factory;
+    private final BoardingFactory factory;
     private String boardingType;
     private final LocalDate date;
 
-    public Booking(Room room, int durationOfStay, String boardingType, LocalDate date) {
+    public Booking(int roomNumber, int durationOfStay, String boardingType) {
         this.id = lastId;
-        this.room = room;
+        this.roomNumber = roomNumber;
         this.durationOfStay = durationOfStay;
         this.factory = new BoardingFactory();
         this.boardingType = boardingType;
-        this.date = date;
+        this.date = LocalDate.now();
 
         lastId += 1;
     }
@@ -33,12 +33,12 @@ public class Booking {
         return id;
     }
 
-    public Room getRoom() {
-        return room;
+    public int getRoomNumber() {
+        return roomNumber;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
     public int getDurationOfStay() {
@@ -53,10 +53,6 @@ public class Booking {
         return factory;
     }
 
-    public void setFactory(BoardingFactory factory) {
-        this.factory = factory;
-    }
-
     public String getBoardingType() {
         return boardingType;
     }
@@ -66,6 +62,12 @@ public class Booking {
     }
 
     public double calculateCost() {
-        return (room.getCost() + factory.createBoarding(boardingType).getCost()) * durationOfStay;
+        return (Registry.getInstance().getRooms().get(roomNumber).getCost() +
+                factory.createBoarding(boardingType).getCost()) * durationOfStay;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

@@ -1,8 +1,9 @@
 package Registry;
 
-import Reservation.*;
-import Room.*;
 import Employee.Worker;
+import Reservation.Booking;
+import Reservation.Resident;
+import Room.Room;
 
 import java.util.ArrayList;
 
@@ -79,5 +80,25 @@ public class Registry {
 
     public void setBookings(ArrayList<Booking> bookings) {
         this.bookings = bookings;
+    }
+
+    public void addBooking(Booking newBooking) {
+        bookings.add(newBooking);
+    }
+
+    public void editBooking(int bookingIndex, Booking newBooking) {
+        bookings.set(bookingIndex, newBooking);
+    }
+
+    public Booking getBookingCopy(int bookingIndex) {
+        Object clone = null;
+
+        try {
+            clone = bookings.get(bookingIndex).clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+
+        return (Booking) clone;
     }
 }
