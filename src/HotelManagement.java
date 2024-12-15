@@ -50,6 +50,17 @@ public class HotelManagement extends JFrame{
     private JPanel RoomsPanel;
     private JTable RoomsTable;
     private JButton logoutButton;
+    private JComboBox RoomType_Combox;
+    private JComboBox BoardingType_Combox;
+    private JLabel roomType;
+    private JLabel boardingType;
+    private JPanel AddWorkerPanel;
+    private JTextField textField5;
+    private JTextField textField6;
+    private JTextField textField7;
+    private JTextField textField8;
+    private JTextField textField9;
+    private JButton AddWorker_Button;
 
     public HotelManagement() {
         setContentPane(ContainerPanel);
@@ -64,7 +75,12 @@ public class HotelManagement extends JFrame{
         incomeBox.addItem("Annual");
         incomeBox.addItem("Monthly");
         incomeBox.addItem("Weekly");
-
+        RoomType_Combox.addItem("Single");
+        RoomType_Combox.addItem("Double");
+        RoomType_Combox.addItem("Triple");
+        BoardingType_Combox.addItem("Bed&Breakfast");
+        BoardingType_Combox.addItem("Half");
+        BoardingType_Combox.addItem("Full");
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -157,6 +173,20 @@ public class HotelManagement extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 new HotelManagement();
+            }
+        });
+        addWorker.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
+                cardLayout.show(contentPanel, "addWorkerCard");
+            }
+        });
+        AddWorker_Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
+                cardLayout.show(contentPanel, "workerCard");
             }
         });
     }
