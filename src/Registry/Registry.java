@@ -37,8 +37,12 @@ public class Registry {
         workers.add(newWorker);
     }
 
-    public void removeWorker(Worker oldWorker) {
-        workers.remove(oldWorker);
+    public void removeWorker(int workerIndex) {
+        workers.remove(workerIndex);
+    }
+
+    public void editWorker(int workerIndex, Worker newWorker) {
+        workers.set(workerIndex, newWorker);
     }
 
     public ArrayList<Resident> getResidents() {

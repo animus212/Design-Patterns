@@ -1,25 +1,14 @@
 package Registry.WorkerOperations;
 
-import Employee.*;
+import java.util.ArrayList;
 
 public class DeleteWorker extends WorkerOperation {
-    public DeleteWorker(Worker worker) {
-        super(worker);
-    }
-
-    @Override
-    protected void preOperation() {
-        for (Worker storedWorker : registry.getWorkers()) {
-            if (storedWorker.getId() == worker.getId()) {
-                return;
-            }
-        }
-
-        throw new IllegalArgumentException("Worker Does Not Exist!");
+    public DeleteWorker(ArrayList<String> workerData) {
+        super(workerData);
     }
 
     @Override
     protected void doOperation() {
-        registry.removeWorker(worker);
+        registry.removeWorker(workerIndex);
     }
 }

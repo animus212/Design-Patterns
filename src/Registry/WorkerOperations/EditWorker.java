@@ -2,26 +2,18 @@ package Registry.WorkerOperations;
 
 import Employee.*;
 
+import java.util.ArrayList;
+
 public class EditWorker extends WorkerOperation {
-    public EditWorker(Worker worker) {
-        super(worker);
-    }
-
-    @Override
-    protected void preOperation() {
-        for (Worker storedWorker : registry.getWorkers()) {
-            if (storedWorker.getId() == worker.getId()) {
-                registry.removeWorker(storedWorker);  // Remove storedWorker here because worker is edited
-
-                return;
-            }
-        }
-
-        throw new IllegalArgumentException("Worker Does Not Exist!");
+    public EditWorker(ArrayList<String> workerData) {
+        super(workerData);
     }
 
     @Override
     protected void doOperation() {
-        registry.addWorker(worker);
+        Worker newWorker = new Worker(Integer.parseInt(workerData.getFirst()), workerData.get(1),
+                workerData.get(2), workerData.get(3), Double.parseDouble(workerData.get(4)), workerData.get(5));
+
+        registry.editWorker(workerIndex, newWorker);
     }
 }

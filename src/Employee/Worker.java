@@ -1,7 +1,6 @@
 package Employee;
 
 public class Worker {
-    private static int lastId = 0;
     private final int id;
     private String name;
     private String email;
@@ -9,15 +8,13 @@ public class Worker {
     private Double salary;
     private String jobTitle;
 
-    public Worker(String name, String email, String phoneNumber, Double salary, String jobTitle) {
-        this.id = lastId;
+    public Worker(int id, String name, String email, String phoneNumber, Double salary, String jobTitle) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.salary = salary;
         this.jobTitle = jobTitle;
-
-        lastId += 1;
     }
 
     public int getId() {

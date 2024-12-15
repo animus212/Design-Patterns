@@ -3,14 +3,17 @@ package Registry.WorkerOperations;
 import Employee.Worker;
 import Registry.Registry;
 
-public abstract class WorkerOperation {
-    protected final Worker worker;
-    protected final Registry registry;
+import java.util.ArrayList;
 
-    public WorkerOperation(Worker worker) {
+public abstract class WorkerOperation {
+    protected final ArrayList<String> workerData;
+    protected final Registry registry;
+    protected int workerIndex;
+
+    public WorkerOperation(ArrayList<String> workerData) {
         this.registry = Registry.getInstance();
 
-        this.worker = worker;
+        this.workerData = workerData;
     }
 
     public final void execute() {
@@ -18,7 +21,21 @@ public abstract class WorkerOperation {
         doOperation();
     }
 
-    protected abstract void preOperation();
+    protected void preOperation() {
+        int index = 0;
+
+        for (Worker storedWorker : registry.getWorkers()) {
+            if (storedWorker.getId() == Integer.parseInt(workerData.getFirst())) {
+                workerIndex = index;
+
+                return;
+            }
+
+            index += 1;
+        }
+
+        throw new IllegalArgumentException("Worker Does Not Exist!");
+    }
 
     protected abstract void doOperation();
 }
