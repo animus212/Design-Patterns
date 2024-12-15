@@ -1,25 +1,14 @@
 package Registry.ResidentOperations;
 
-import Reservation.Resident;
+import java.util.ArrayList;
 
 public class DeleteResident extends ResidentOperation {
-    public DeleteResident(Resident resident) {
-        super(resident);
-    }
-
-    @Override
-    protected void preOperation() {
-        for (Resident storedResident : registry.getResidents()) {
-            if (storedResident.getPhoneNumber().equalsIgnoreCase(resident.getPhoneNumber())) {
-                return;
-            }
-        }
-
-        throw new IllegalArgumentException("Resident Does Not Exist!");
+    public DeleteResident(ArrayList<String> residentData) {
+        super(residentData);
     }
 
     @Override
     protected void doOperation() {
-        registry.removeResident(resident);
+        registry.removeResident(residentIndex);
     }
 }

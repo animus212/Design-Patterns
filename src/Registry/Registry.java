@@ -57,8 +57,12 @@ public class Registry {
         residents.add(newResident);
     }
 
-    public void removeResident(Resident oldResident) {
-        residents.remove(oldResident);
+    public void removeResident(int residentIndex) {
+        residents.remove(residentIndex);
+    }
+
+    public void editResident(int residentIndex, Resident newResident) {
+        residents.set(residentIndex, newResident);
     }
 
     public ArrayList<Room> getRooms() {

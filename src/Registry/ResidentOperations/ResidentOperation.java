@@ -1,16 +1,19 @@
 package Registry.ResidentOperations;
 
-import Reservation.Resident;
 import Registry.Registry;
+import Reservation.Resident;
+
+import java.util.ArrayList;
 
 public abstract class ResidentOperation {
-    protected final Resident resident;
+    protected final ArrayList<String> residentData;
     protected final Registry registry;
+    protected int residentIndex;
 
-    public ResidentOperation(Resident resident) {
+    public ResidentOperation(ArrayList<String> residentData) {
         this.registry = Registry.getInstance();
 
-        this.resident = resident;
+        this.residentData = residentData;
     }
 
     public final void execute() {
@@ -18,7 +21,21 @@ public abstract class ResidentOperation {
         doOperation();
     }
 
-    protected abstract void preOperation();
+    protected void preOperation() {
+        int index = 0;
+
+        for (Resident storedResident : registry.getResidents()) {
+            if (storedResident.getPhoneNumber().equalsIgnoreCase(residentData.get(2))) {
+                residentIndex = index;
+
+                return;
+            }
+
+            index += 1;
+        }
+
+        throw new IllegalArgumentException("Resident Does Not Exist!");
+    }
 
     protected abstract void doOperation();
 }
