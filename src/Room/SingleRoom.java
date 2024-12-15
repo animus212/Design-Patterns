@@ -1,7 +1,7 @@
 package Room;
 
 public class SingleRoom extends Room {
-    public SingleRoom() {
-        super("single", 500);
+    public SingleRoom(boolean available) {
+        super(available, 500.0);
     }
 }
