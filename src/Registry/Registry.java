@@ -33,12 +33,28 @@ public class Registry {
         this.workers = workers;
     }
 
+    public void addWorker(Worker newWorker) {
+        workers.add(newWorker);
+    }
+
+    public void removeWorker(Worker oldWorker) {
+        workers.remove(oldWorker);
+    }
+
     public ArrayList<Resident> getResidents() {
         return residents;
     }
 
     public void setResidents(ArrayList<Resident> residents) {
         this.residents = residents;
+    }
+
+    public void addResident(Resident newResident) {
+        residents.add(newResident);
+    }
+
+    public void removeResident(Resident oldResident) {
+        residents.remove(oldResident);
     }
 
     public ArrayList<Room> getRooms() {
