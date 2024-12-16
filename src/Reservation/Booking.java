@@ -25,6 +25,15 @@ public class Booking implements Cloneable {
         lastId += 1;
     }
 
+    public Booking(int id, int roomNumber, int durationOfStay, String boardingType, LocalDate date) {
+        this.id = id;
+        this.roomNumber = roomNumber;
+        this.durationOfStay = durationOfStay;
+        this.boardingType = boardingType;
+        this.date = date;
+        this.factory = new BoardingFactory();
+    }
+
     public LocalDate getDate() {
         return date;
     }
@@ -64,6 +73,14 @@ public class Booking implements Cloneable {
     public double calculateCost() {
         return (Registry.getInstance().getRooms().get(roomNumber).getCost() +
                 factory.createBoarding(boardingType).getCost()) * durationOfStay;
+    }
+
+    public static int getLastId() {
+        return lastId;
+    }
+
+    public static void setLastId(int lastId) {
+        Booking.lastId = lastId;
     }
 
     @Override

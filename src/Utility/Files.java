@@ -2,21 +2,21 @@ package Utility;
 
 import Employee.Worker;
 import Registry.Registry;
+import Reservation.Booking;
 import Reservation.Resident;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Files {
     public void saveWorkers(){
         try {
             File workersFile = new File("workers.txt");
-            if (workersFile.createNewFile()) {
-                System.out.println("File created: " + workersFile.getName());
-            }
+            workersFile.createNewFile();
             FileWriter workerWriter = new FileWriter(workersFile.getPath());
             for (Worker worker: Registry.getInstance().getWorkers()){
             workerWriter.write(worker.getId() + " " + worker.getName() + " " + worker.getEmail() + " "
@@ -30,7 +30,7 @@ public class Files {
     }
 
     public void readWorkers() throws IOException {
-        File workersFile = new File("workers.txt");;
+        File workersFile = new File("workers.txt");
         try {
 
             Scanner workerReader = new Scanner(workersFile);
@@ -55,9 +55,7 @@ public class Files {
     public void saveResidents(){
         try {
             File residentFile = new File("residents.txt");
-            if (residentFile.createNewFile()) {
-                System.out.println("File created: " + residentFile.getName());
-            }
+            residentFile.createNewFile();
             FileWriter residentWriter = new FileWriter(residentFile.getPath());
             for (Resident resident: Registry.getInstance().getResidents()){
                 residentWriter.write(resident.getName() + " " + resident.getAge() + " " + resident.getPhoneNumber() + " "
@@ -71,7 +69,7 @@ public class Files {
     }
 
     public void readResidents() throws IOException {
-        File residentsFile = new File("residents.txt");;
+        File residentsFile = new File("residents.txt");
         try {
 
             Scanner residentReader = new Scanner(residentsFile);
@@ -96,6 +94,52 @@ public class Files {
             residentReader.close();
         } catch (FileNotFoundException e) {
             residentsFile.createNewFile();
+            e.printStackTrace();
+        }
+    }
+
+    public void saveBookings(){
+        try {
+            File bookingsFile = new File("bookings.txt");
+            bookingsFile.createNewFile();
+
+            FileWriter bookingsWriter = new FileWriter(bookingsFile.getPath());
+            for (Booking booking: Registry.getInstance().getBookings()){
+                bookingsWriter.write(booking.getId() + " " + booking.getRoomNumber() + " " + booking.getDurationOfStay() + " "
+                        + booking.getBoardingType() + " " + booking.getDate() + "\n");
+            }
+            bookingsWriter.write(Booking.getLastId());
+            bookingsWriter.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public void readBookings() throws IOException {
+        File workersFile = new File("bookings.txt");
+        try {
+
+            Scanner bookingReader = new Scanner(workersFile);
+            String[] bookingDetails;
+            while (bookingReader.hasNextLine()) {
+                String data = bookingReader.nextLine();
+                bookingDetails = data.split(" ");
+                if (bookingDetails.length > 1){
+                    Registry.getInstance().getBookings().add(new Booking(Integer.parseInt(bookingDetails[0]),
+                        Integer.parseInt(bookingDetails[1]),
+                        Integer.parseInt(bookingDetails[2]),
+                        bookingDetails[3],
+                        LocalDate.parse(bookingDetails[4]))
+                    );
+                }else {
+                    Booking.setLastId(Integer.parseInt(bookingDetails[0]));
+                }
+            }
+            bookingReader.close();
+        } catch (FileNotFoundException e) {
+            workersFile.createNewFile();
             e.printStackTrace();
         }
     }
