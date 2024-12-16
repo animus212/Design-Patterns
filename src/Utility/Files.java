@@ -114,45 +114,50 @@ public class Files {
         }
     }
 
-    public void saveBookings(){
+    public static void saveBookings() {
         try {
             File bookingsFile = new File("bookings.txt");
-            bookingsFile.createNewFile();
+
+            if (bookingsFile.createNewFile()) {
+                System.out.println("File created: " + bookingsFile.getName());
+            }
 
             FileWriter bookingsWriter = new FileWriter(bookingsFile.getPath());
-            for (Booking booking: Registry.getInstance().getBookings()){
-                bookingsWriter.write(booking.getId() + " " + booking.getRoomNumber() + " " + booking.getDurationOfStay() + " "
-                        + booking.getBoardingType() + " " + booking.getDate() + "\n");
+
+            for (Booking booking : Registry.getInstance().getBookings()) {
+                bookingsWriter.write(booking.getId() + "," + booking.getRoomNumber() + "," +
+                        booking.getDurationOfStay() + "," + booking.getBoardingType() + "," +
+                        booking.getDate() + "\n");
             }
+
             bookingsWriter.write(Booking.getLastId());
             bookingsWriter.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
 
     public void readBookings() throws IOException {
         File workersFile = new File("bookings.txt");
-        try {
 
+        try {
             Scanner bookingReader = new Scanner(workersFile);
             String[] bookingDetails;
+
             while (bookingReader.hasNextLine()) {
                 String data = bookingReader.nextLine();
-                bookingDetails = data.split(" ");
-                if (bookingDetails.length > 1){
+                bookingDetails = data.split(",");
+
+                if (bookingDetails.length > 1) {
                     Registry.getInstance().getBookings().add(new Booking(Integer.parseInt(bookingDetails[0]),
-                        Integer.parseInt(bookingDetails[1]),
-                        Integer.parseInt(bookingDetails[2]),
-                        bookingDetails[3],
-                        LocalDate.parse(bookingDetails[4]))
+                            Integer.parseInt(bookingDetails[1]), Integer.parseInt(bookingDetails[2]),
+                            bookingDetails[3], LocalDate.parse(bookingDetails[4]))
                     );
-                }else {
+                } else {
                     Booking.setLastId(Integer.parseInt(bookingDetails[0]));
                 }
             }
+
             bookingReader.close();
         } catch (FileNotFoundException e) {
             workersFile.createNewFile();
