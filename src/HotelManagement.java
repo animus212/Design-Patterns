@@ -1,8 +1,14 @@
+import Registry.Registry;
+import Registry.WorkerOperations.AddWorker;
+import Registry.WorkerOperations.DeleteWorker;
+import Registry.WorkerOperations.EditWorker;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class HotelManagement extends JFrame {
     private JPanel ContainerPanel;
@@ -49,7 +55,6 @@ public class HotelManagement extends JFrame {
     private JLabel Duration;
     private JPanel RoomsPanel;
     private JTable RoomsTable;
-    private JButton logoutButton;
     private JComboBox RoomType_Combox;
     private JComboBox BoardingType_Combox;
     private JLabel roomType;
@@ -61,6 +66,9 @@ public class HotelManagement extends JFrame {
     private JTextField textField8;
     private JTextField textField9;
     private JButton AddWorker_Button;
+    private JTextField textField10;
+
+    private Registry registry = Registry.getInstance();
 
     public HotelManagement() {
         setContentPane(ContainerPanel);
@@ -108,25 +116,97 @@ public class HotelManagement extends JFrame {
         workersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[] workerColumnNames = {"Name", "E-mail", "Phone Number", "Salary", "Job Title"};
-                Object[][] data = {
-                        {"John Doe", "john.doe@example.com", "123-456-7890", "$50,000", "Manager"},
-                        {"Jane Smith", "jane.smith@example.com", "987-654-3210", "$45,000", "Assistant"},
-                        {"Alice Brown", "alice.brown@example.com", "555-123-4567", "$48,000", "Coordinator"},
-                        {"Bob White", "bob.white@example.com", "444-555-6666", "$52,000", "Supervisor"},
-                        {"Tom Green", "tom.green@example.com", "333-777-8888", "$47,000", "Analyst"}
+                String[] workerColumnNames = {"ID", "Name", "E-mail", "Phone Number", "Salary", "Job Title"};
+                Object[][] data = new Object[registry.getWorkers().size()][workerColumnNames.length];
+
+                for (int i = 0; i < registry.getWorkers().size(); i++) {
+                    data[i][0] = registry.getWorkers().get(i).getId();
+                    data[i][1] = registry.getWorkers().get(i).getName();
+                    data[i][2] = registry.getWorkers().get(i).getEmail();
+                    data[i][3] = registry.getWorkers().get(i).getPhoneNumber();
+                    data[i][4] = registry.getWorkers().get(i).getSalary();
+                    data[i][5] = registry.getWorkers().get(i).getJobTitle();
+                }
+
+                DefaultTableModel defaultTableModel = new DefaultTableModel(data, workerColumnNames) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return column != 0;
+                    }
                 };
-                DefaultTableModel defaultTableModel = new DefaultTableModel(data, workerColumnNames);
+
                 workersTable.setModel(defaultTableModel);
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
                 cardLayout.show(contentPanel, "workerCard");
             }
         });
 
+        addWorker.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
+                cardLayout.show(contentPanel, "addWorkerCard");
+            }
+        });
+
+        AddWorker_Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<String> workerData = new ArrayList<String>();
+
+                workerData.add(textField10.getText());
+                workerData.add(textField5.getText());
+                workerData.add(textField6.getText());
+                workerData.add(textField7.getText());
+                workerData.add(textField8.getText());
+                workerData.add(textField9.getText());
+
+                AddWorker addWorkerOp = new AddWorker(workerData);
+                addWorkerOp.execute();
+            }
+        });
+
+        updateWorker.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<String> workerData = new ArrayList<String>();
+
+                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 0).toString());
+                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 1).toString());
+                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 2).toString());
+                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 3).toString());
+                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 4).toString());
+                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 5).toString());
+
+                EditWorker editWorkerOp = new EditWorker(workerData);
+                editWorkerOp.execute();
+            }
+        });
+
+        deleteWorker.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<String> workerData = new ArrayList<String>();
+
+                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 0).toString());
+                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 1).toString());
+                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 2).toString());
+                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 3).toString());
+                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 4).toString());
+                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 5).toString());
+
+                DeleteWorker deleteWorkerOp = new DeleteWorker(workerData);
+                deleteWorkerOp.execute();
+
+                DefaultTableModel model = (DefaultTableModel) workersTable.getModel();
+                model.removeRow(workersTable.getSelectedRow());
+            }
+        });
+
         residentsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[] ResColumnNames = {"Name", "Age", "Phone Number", "Booking ID"};
+                String[] ResColumnNames = {"Name", "Age", "Phone Number", "Room Number"};
                 DefaultTableModel defaultTableModel = new DefaultTableModel(null, ResColumnNames);
                 residentsTable.setModel(defaultTableModel);
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
@@ -174,30 +254,6 @@ public class HotelManagement extends JFrame {
                 RoomsTable.setModel(defaultTableModel);
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
                 cardLayout.show(contentPanel, "RoomsCard");
-            }
-        });
-
-        logoutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                new HotelManagement();
-            }
-        });
-
-        addWorker.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
-                cardLayout.show(contentPanel, "addWorkerCard");
-            }
-        });
-
-        AddWorker_Button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
-                cardLayout.show(contentPanel, "workerCard");
             }
         });
     }
