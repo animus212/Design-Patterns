@@ -2,12 +2,14 @@ package Utility;
 
 import Employee.Worker;
 import Registry.Registry;
+import Reservation.Booking;
 import Reservation.Resident;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Files {
@@ -108,6 +110,52 @@ public class Files {
             residentReader.close();
         } catch (FileNotFoundException e) {
             residentsFile.createNewFile();
+            e.printStackTrace();
+        }
+    }
+
+    public void saveBookings(){
+        try {
+            File bookingsFile = new File("bookings.txt");
+            bookingsFile.createNewFile();
+
+            FileWriter bookingsWriter = new FileWriter(bookingsFile.getPath());
+            for (Booking booking: Registry.getInstance().getBookings()){
+                bookingsWriter.write(booking.getId() + " " + booking.getRoomNumber() + " " + booking.getDurationOfStay() + " "
+                        + booking.getBoardingType() + " " + booking.getDate() + "\n");
+            }
+            bookingsWriter.write(Booking.getLastId());
+            bookingsWriter.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public void readBookings() throws IOException {
+        File workersFile = new File("bookings.txt");
+        try {
+
+            Scanner bookingReader = new Scanner(workersFile);
+            String[] bookingDetails;
+            while (bookingReader.hasNextLine()) {
+                String data = bookingReader.nextLine();
+                bookingDetails = data.split(" ");
+                if (bookingDetails.length > 1){
+                    Registry.getInstance().getBookings().add(new Booking(Integer.parseInt(bookingDetails[0]),
+                        Integer.parseInt(bookingDetails[1]),
+                        Integer.parseInt(bookingDetails[2]),
+                        bookingDetails[3],
+                        LocalDate.parse(bookingDetails[4]))
+                    );
+                }else {
+                    Booking.setLastId(Integer.parseInt(bookingDetails[0]));
+                }
+            }
+            bookingReader.close();
+        } catch (FileNotFoundException e) {
+            workersFile.createNewFile();
             e.printStackTrace();
         }
     }
