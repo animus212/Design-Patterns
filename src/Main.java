@@ -7,7 +7,9 @@ import java.awt.event.WindowEvent;
 public class Main {
     public static void main(String[] args) {
         try {
+            Files.readRooms();
             Files.readWorkers();
+            Files.readBookings();
             Files.readResidents();
 
             JFrame hotelManagement = new HotelManagement();
@@ -15,7 +17,9 @@ public class Main {
             hotelManagement.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
+                    Files.saveRooms();
                     Files.saveWorkers();
+                    Files.saveBookings();
                     Files.saveResidents();
 
                     System.exit(0);

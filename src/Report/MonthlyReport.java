@@ -10,16 +10,16 @@ import java.util.ArrayList;
 public class MonthlyReport implements Report {
     @Override
     public double generateReport() {
-        double weeklyIncome = 0;
-        LocalDate[] lastWeek = Utility.getPreviousMonth(LocalDate.now());
+        double monthlyIncome = 0;
+        LocalDate[] lastMonth = Utility.getPreviousMonth(LocalDate.now());
         ArrayList<Booking> bookings = Registry.getInstance().getBookings();
 
         for (Booking booking : bookings) {
-            if (!booking.getDate().isBefore(lastWeek[0]) && !booking.getDate().isAfter(lastWeek[1])) {
-                weeklyIncome += booking.calculateCost();
+            if (!booking.getDate().isBefore(lastMonth[0]) && !booking.getDate().isAfter(lastMonth[1])) {
+                monthlyIncome += booking.calculateCost();
             }
         }
 
-        return weeklyIncome;
+        return monthlyIncome;
     }
 }

@@ -96,15 +96,10 @@ public class Files {
                 resident = new Resident(residentDetails[0], Integer.parseInt(residentDetails[1]),
                         residentDetails[2], Integer.parseInt(residentDetails[3]));
 
-                for (int i = 4; i < residentDetails.length; i++) {
-                    residentServiceList.append(residentDetails[i]);
-
-                    if (i != residentDetails.length - 1) {
-                        residentServiceList.append(", ");
-                    }
+                if (residentDetails.length > 4) {
+                    resident.setServiceList(residentDetails[4]);
                 }
 
-                resident.setServiceList(String.valueOf(residentServiceList));
                 Registry.getInstance().getResidents().add(resident);
             }
 
@@ -131,14 +126,13 @@ public class Files {
                         booking.getDate() + "\n");
             }
 
-            bookingsWriter.write(Booking.getLastId());
             bookingsWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void readBookings() throws IOException {
+    public static void readBookings() throws IOException {
         File workersFile = new File("bookings.txt");
 
         try {
@@ -149,15 +143,13 @@ public class Files {
                 String data = bookingReader.nextLine();
                 bookingDetails = data.split(",");
 
-                if (bookingDetails.length > 1) {
-                    Registry.getInstance().getBookings().add(new Booking(Integer.parseInt(bookingDetails[0]),
-                            Integer.parseInt(bookingDetails[1]), Integer.parseInt(bookingDetails[2]),
-                            bookingDetails[3], LocalDate.parse(bookingDetails[4]))
-                    );
-                } else {
-                    Booking.setLastId(Integer.parseInt(bookingDetails[0]));
-                }
+
+                Registry.getInstance().getBookings().add(new Booking(Integer.parseInt(bookingDetails[0]),
+                        Integer.parseInt(bookingDetails[1]), Integer.parseInt(bookingDetails[2]),
+                        bookingDetails[3], LocalDate.parse(bookingDetails[4])));
             }
+
+            Booking.setLastId(Registry.getInstance().getBookings().getLast().getId() + 1);
 
             bookingReader.close();
         } catch (FileNotFoundException e) {

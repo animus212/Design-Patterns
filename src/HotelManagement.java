@@ -260,7 +260,8 @@ public class HotelManagement extends JFrame {
                     for (int j = 0; j < registry.getBookings().size(); j++) {
                         if (registry.getResidents().get(i).getBookingId() == registry.getBookings().get(j).getId()) {
                             data[i][5] = registry.getBookings().get(j).getRoomNumber();
-                            data[i][6] = registry.getRooms().get((int) data[i][4]).getClass().getSimpleName();
+                            data[i][6] = registry.getRooms().get(Integer.parseInt(data[i][5].toString()))
+                                    .getClass().getSimpleName();
                             data[i][7] = registry.getBookings().get(j).getDurationOfStay();
                             data[i][8] = registry.getBookings().get(j).getBoardingType();
                         }
@@ -348,6 +349,7 @@ public class HotelManagement extends JFrame {
                 residentData.add("-1");
 
                 bookingData.add(textField4.getText());
+                bookingData.add(BoardingType_Combox.getSelectedItem().toString());
                 bookingData.add(RoomType_Combox.getSelectedItem().toString());
 
                 AddBooking addBookingOp = new AddBooking(bookingData);
@@ -361,10 +363,13 @@ public class HotelManagement extends JFrame {
                     addBookingOp.execute();
 
                     residentData.set(3, String.valueOf(registry.getBookings().getLast().getId()));
+                    residentData.add("");
 
                     editResidentOp = new EditResident(residentData);
 
                     editResidentOp.execute();
+
+                    JOptionPane.showMessageDialog(HotelManagement.this, "Booked!");
                 } catch (NullPointerException ex) {
                     ex.printStackTrace();
 
@@ -406,6 +411,8 @@ public class HotelManagement extends JFrame {
                     editResidentOp.execute();
 
                     editBookingOp.execute();
+
+                    JOptionPane.showMessageDialog(HotelManagement.this, "Edited!");
                 } catch (IllegalArgumentException exc) {
                     exc.printStackTrace();
 
@@ -435,10 +442,6 @@ public class HotelManagement extends JFrame {
                 DeleteResident deleteResidentOp = new DeleteResident(residentData);
 
                 try {
-                    deleteResidentOp.execute();
-
-                    registry.freeRoom(Integer.parseInt(bookingData.get(1)));
-
                     for (int j = 0; j < registry.getBookings().size(); j++) {
                         if (registry.getBookings().get(j).getId() == Integer.parseInt(bookingData.getFirst())) {
                             JOptionPane.showMessageDialog(HotelManagement.this,
@@ -447,6 +450,10 @@ public class HotelManagement extends JFrame {
                             break;
                         }
                     }
+
+                    deleteResidentOp.execute();
+
+                    registry.freeRoom(Integer.parseInt(bookingData.get(1)));
                 } catch (Exception ex) {
                     ex.printStackTrace();
 

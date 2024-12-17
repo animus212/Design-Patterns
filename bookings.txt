@@ -1,0 +1,6 @@
+0,0,3,Half Board,2023-12-17
+1,1,2,Full Board,2024-11-17
+2,1,4,Full Board,2024-12-10
+3,2,2,Bed & Breakfast,2024-12-17
+4,1,2,Bed & Breakfast,2024-12-17
+5,0,5,Full Board,2024-12-17
