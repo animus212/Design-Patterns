@@ -4,6 +4,7 @@ import Employee.Worker;
 import Registry.Registry;
 import Reservation.Booking;
 import Reservation.Resident;
+import Room.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -161,6 +162,47 @@ public class Files {
             bookingReader.close();
         } catch (FileNotFoundException e) {
             workersFile.createNewFile();
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveRooms() {
+        try {
+            File roomsFile = new File("rooms.txt");
+
+            if (roomsFile.createNewFile()) {
+                System.out.println("File created: " + roomsFile.getName());
+            }
+
+            FileWriter roomWriter = new FileWriter(roomsFile.getPath());
+
+            for (Room room : Registry.getInstance().getRooms()) {
+                roomWriter.write(room.isAvailable() + "," + room.getClass().getSimpleName() + "\n");
+            }
+
+            roomWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void readRooms() throws IOException {
+        File roomsFile = new File("rooms.txt");
+        RoomFactory roomFactory = new RoomFactory();
+
+        try {
+            Scanner roomReader = new Scanner(roomsFile);
+            String[] roomDetails;
+
+            while (roomReader.hasNextLine()) {
+                String data = roomReader.nextLine();
+                roomDetails = data.split(",");
+                Registry.getInstance().getRooms().add(roomFactory.createRoom(roomDetails[1], Boolean.parseBoolean(roomDetails[0])));
+            }
+
+            roomReader.close();
+        } catch (FileNotFoundException e) {
+            roomsFile.createNewFile();
             e.printStackTrace();
         }
     }
