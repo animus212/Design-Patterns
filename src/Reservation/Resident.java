@@ -1,10 +1,10 @@
 package Reservation;
 
 public class Resident {
-    private String name;
-    private int age;
     private final String phoneNumber; // ID
     private final int bookingId;
+    private String name;
+    private int age;
     private String serviceList;
 
     public Resident(String name, int age, String phoneNumber, int bookingId) {

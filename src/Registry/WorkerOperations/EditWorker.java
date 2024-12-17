@@ -1,6 +1,6 @@
 package Registry.WorkerOperations;
 
-import Employee.*;
+import Employee.Worker;
 
 import java.util.ArrayList;
 

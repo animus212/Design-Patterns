@@ -8,11 +8,11 @@ import java.time.LocalDate;
 public class Booking implements Cloneable {
     private static int lastId = 0;
     private final int id;
+    private final BoardingFactory factory;
+    private final LocalDate date;
     private int roomNumber; // Room index in the registry since rooms never change.
     private int durationOfStay;
-    private final BoardingFactory factory;
     private String boardingType;
-    private final LocalDate date;
 
     public Booking(int roomNumber, int durationOfStay, String boardingType) {
         this.id = lastId;
@@ -32,6 +32,14 @@ public class Booking implements Cloneable {
         this.boardingType = boardingType;
         this.date = date;
         this.factory = new BoardingFactory();
+    }
+
+    public static int getLastId() {
+        return lastId;
+    }
+
+    public static void setLastId(int lastId) {
+        Booking.lastId = lastId;
     }
 
     public LocalDate getDate() {
@@ -73,14 +81,6 @@ public class Booking implements Cloneable {
     public double calculateCost() {
         return (Registry.getInstance().getRooms().get(roomNumber).getCost() +
                 factory.createBoarding(boardingType).getCost()) * durationOfStay;
-    }
-
-    public static int getLastId() {
-        return lastId;
-    }
-
-    public static void setLastId(int lastId) {
-        Booking.lastId = lastId;
     }
 
     @Override

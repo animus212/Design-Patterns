@@ -1,8 +1,8 @@
 package Report;
 
-import Registry.*;
+import Registry.Registry;
 import Reservation.Booking;
-import Utility.*;
+import Utility.Utility;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

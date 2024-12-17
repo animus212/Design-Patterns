@@ -4,7 +4,8 @@ import Employee.Worker;
 import Registry.Registry;
 import Reservation.Booking;
 import Reservation.Resident;
-import Room.*;
+import Room.Room;
+import Room.RoomFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;

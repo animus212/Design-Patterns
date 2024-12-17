@@ -20,6 +20,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class HotelManagement extends JFrame {
+    private final Registry registry = Registry.getInstance();
     private JPanel ContainerPanel;
     private JLabel hotelName;
     private JPanel subMenu;
@@ -76,8 +77,6 @@ public class HotelManagement extends JFrame {
     private JLabel incomeType;
     private JTextField textField2;
     private JTextField textField3;
-
-    private final Registry registry = Registry.getInstance();
     private Report report;
     private boolean isReceptionist = false;
 

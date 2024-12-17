@@ -8,12 +8,11 @@ import Room.Room;
 import java.util.ArrayList;
 
 public class Registry {
+    private static final Registry registry = new Registry();
     private ArrayList<Worker> workers;
     private ArrayList<Resident> residents;
     private ArrayList<Room> rooms;
     private ArrayList<Booking> bookings;
-
-    private static final Registry registry = new Registry();
 
     private Registry() {
         this.workers = new ArrayList<Worker>();
