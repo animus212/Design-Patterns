@@ -19,13 +19,18 @@ public class EditBooking extends BookingOperation {
             if (storedBooking.getId() == Integer.parseInt(bookingData.getFirst())) {
                 bookingIndex = index;
 
+                if (storedBooking.getRoomNumber() != Integer.parseInt(bookingData.get(1)) &&
+                        !registry.getRooms().get(Integer.parseInt(bookingData.get(1))).isAvailable()) {
+                    throw new IllegalArgumentException("Room is not available!");
+                }
+
                 return;
             }
 
             index += 1;
         }
 
-        throw new IllegalArgumentException("Resident Does Not Exist!");
+        throw new IllegalArgumentException("Booking Does Not Exist!");
     }
 
     @Override

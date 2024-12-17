@@ -1,7 +1,16 @@
+import Registry.BookingOperations.AddBooking;
+import Registry.BookingOperations.EditBooking;
 import Registry.Registry;
+import Registry.ResidentOperations.AddResident;
+import Registry.ResidentOperations.DeleteResident;
+import Registry.ResidentOperations.EditResident;
 import Registry.WorkerOperations.AddWorker;
 import Registry.WorkerOperations.DeleteWorker;
 import Registry.WorkerOperations.EditWorker;
+import Report.MonthlyReport;
+import Report.Report;
+import Report.WeeklyReport;
+import Report.YearlyReport;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -41,12 +50,9 @@ public class HotelManagement extends JFrame {
     private JPanel incomePanel;
     private JComboBox incomeBox;
     private JButton showIncome;
-    private JLabel incomeType;
     private JTextField incomeValue;
     private JPanel addResidentPanel;
     private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
     private JLabel Resname;
     private JLabel ResPhone;
     private JTextField textField4;
@@ -67,8 +73,13 @@ public class HotelManagement extends JFrame {
     private JTextField textField9;
     private JButton AddWorker_Button;
     private JTextField textField10;
+    private JLabel incomeType;
+    private JTextField textField2;
+    private JTextField textField3;
 
-    private Registry registry = Registry.getInstance();
+    private final Registry registry = Registry.getInstance();
+    private Report report;
+    private boolean isReceptionist = false;
 
     public HotelManagement() {
         setContentPane(ContainerPanel);
@@ -82,9 +93,9 @@ public class HotelManagement extends JFrame {
         incomeBox.addItem("Annual");
         incomeBox.addItem("Monthly");
         incomeBox.addItem("Weekly");
-        RoomType_Combox.addItem("Single");
-        RoomType_Combox.addItem("Double");
-        RoomType_Combox.addItem("Triple");
+        RoomType_Combox.addItem("SingleRoom");
+        RoomType_Combox.addItem("DoubleRoom");
+        RoomType_Combox.addItem("TripleRoom");
         BoardingType_Combox.addItem("Bed & Breakfast");
         BoardingType_Combox.addItem("Half Board");
         BoardingType_Combox.addItem("Full Board");
@@ -106,7 +117,8 @@ public class HotelManagement extends JFrame {
                     workersButton.setVisible(false);
                     manageWorkers.setVisible(false);
                     incomeButton.setVisible(false);
-                    roomsButton.setVisible(false);
+
+                    isReceptionist = true;
                 } else {
                     JOptionPane.showMessageDialog(HotelManagement.this, "User Not Found!");
                 }
@@ -162,7 +174,16 @@ public class HotelManagement extends JFrame {
                 workerData.add(textField9.getText());
 
                 AddWorker addWorkerOp = new AddWorker(workerData);
-                addWorkerOp.execute();
+
+                try {
+                    addWorkerOp.execute();
+
+                    JOptionPane.showMessageDialog(HotelManagement.this, "Worker Added!");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+
+                    JOptionPane.showMessageDialog(HotelManagement.this, "Worker Not Added!");
+                }
             }
         });
 
@@ -179,7 +200,16 @@ public class HotelManagement extends JFrame {
                 workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 5).toString());
 
                 EditWorker editWorkerOp = new EditWorker(workerData);
-                editWorkerOp.execute();
+
+                try {
+                    editWorkerOp.execute();
+
+                    JOptionPane.showMessageDialog(HotelManagement.this, "Worker Edited!");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+
+                    JOptionPane.showMessageDialog(HotelManagement.this, "Worker Not Edited!");
+                }
             }
         });
 
@@ -196,18 +226,54 @@ public class HotelManagement extends JFrame {
                 workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 5).toString());
 
                 DeleteWorker deleteWorkerOp = new DeleteWorker(workerData);
-                deleteWorkerOp.execute();
 
-                DefaultTableModel model = (DefaultTableModel) workersTable.getModel();
-                model.removeRow(workersTable.getSelectedRow());
+                try {
+                    deleteWorkerOp.execute();
+
+                    DefaultTableModel model = (DefaultTableModel) workersTable.getModel();
+                    model.removeRow(workersTable.getSelectedRow());
+
+                    JOptionPane.showMessageDialog(HotelManagement.this, "Worker Deleted!");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+
+                    JOptionPane.showMessageDialog(HotelManagement.this, "Worker Not Deleted!");
+                }
             }
         });
 
         residentsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[] ResColumnNames = {"Name", "Age", "Phone Number", "Room Number"};
-                DefaultTableModel defaultTableModel = new DefaultTableModel(null, ResColumnNames);
+                String[] ResColumnNames = {"Name", "Age", "Phone Number", "Booking ID", "Services",
+                        "Room Number", "Room Type", "Duration of Stay", "Boarding Type"};
+
+                Object[][] data = new Object[registry.getResidents().size()][ResColumnNames.length];
+
+                for (int i = 0; i < registry.getResidents().size(); i++) {
+                    data[i][0] = registry.getResidents().get(i).getName();
+                    data[i][1] = registry.getResidents().get(i).getAge();
+                    data[i][2] = registry.getResidents().get(i).getPhoneNumber();
+                    data[i][3] = registry.getResidents().get(i).getBookingId();
+                    data[i][4] = registry.getResidents().get(i).getServiceList();
+
+                    for (int j = 0; j < registry.getBookings().size(); j++) {
+                        if (registry.getResidents().get(i).getBookingId() == registry.getBookings().get(j).getId()) {
+                            data[i][5] = registry.getBookings().get(j).getRoomNumber();
+                            data[i][6] = registry.getRooms().get((int) data[i][4]).getClass().getSimpleName();
+                            data[i][7] = registry.getBookings().get(j).getDurationOfStay();
+                            data[i][8] = registry.getBookings().get(j).getBoardingType();
+                        }
+                    }
+                }
+
+                DefaultTableModel defaultTableModel = new DefaultTableModel(data, ResColumnNames) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return isReceptionist && column != 2 && column != 3 && column != 6;
+                    }
+                };
+
                 residentsTable.setModel(defaultTableModel);
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
                 cardLayout.show(contentPanel, "residentCard");
@@ -225,7 +291,40 @@ public class HotelManagement extends JFrame {
         showIncome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                incomeValue.setVisible(true);
+                if (incomeBox.getSelectedIndex() == 0) {
+                    report = new YearlyReport();
+                } else if (incomeBox.getSelectedIndex() == 1) {
+                    report = new MonthlyReport();
+                } else {
+                    report = new WeeklyReport();
+                }
+
+                incomeValue.setText(String.valueOf(report.generateReport()));
+            }
+        });
+
+        roomsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] RoomsColumnNames = {"Room Number", "Room Type", "Room Availability"};
+                Object[][] data = new Object[registry.getRooms().size()][RoomsColumnNames.length];
+
+                for (int i = 0; i < registry.getRooms().size(); i++) {
+                    data[i][0] = i;
+                    data[i][1] = registry.getRooms().get(i).getClass().getSimpleName();
+                    data[i][2] = registry.getRooms().get(i).isAvailable() ? "Available" : "Occupied";
+                }
+
+                DefaultTableModel defaultTableModel = new DefaultTableModel(data, RoomsColumnNames) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+
+                RoomsTable.setModel(defaultTableModel);
+                CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
+                cardLayout.show(contentPanel, "RoomsCard");
             }
         });
 
@@ -240,20 +339,120 @@ public class HotelManagement extends JFrame {
         Book.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(HotelManagement.this, "Resident Added");
-                CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
-                cardLayout.show(contentPanel, "residentCard");
+                ArrayList<String> residentData = new ArrayList<String>();
+                ArrayList<String> bookingData = new ArrayList<String>();
+
+                residentData.add(textField1.getText());
+                residentData.add(textField3.getText());
+                residentData.add(textField2.getText());
+                residentData.add("-1");
+
+                bookingData.add(textField4.getText());
+                bookingData.add(RoomType_Combox.getSelectedItem().toString());
+
+                AddBooking addBookingOp = new AddBooking(bookingData);
+                AddResident addResidentOp = new AddResident(residentData);
+                EditResident editResidentOp;
+                DeleteResident deleteResidentOp;
+
+                try {
+                    addResidentOp.execute();
+
+                    addBookingOp.execute();
+
+                    residentData.set(3, String.valueOf(registry.getBookings().getLast().getId()));
+
+                    editResidentOp = new EditResident(residentData);
+
+                    editResidentOp.execute();
+                } catch (NullPointerException ex) {
+                    ex.printStackTrace();
+
+                    deleteResidentOp = new DeleteResident(residentData);
+
+                    deleteResidentOp.execute();
+
+                    JOptionPane.showMessageDialog(HotelManagement.this, "Error while Booking!");
+                } catch (IllegalArgumentException exc) {
+                    exc.printStackTrace();
+
+                    JOptionPane.showMessageDialog(HotelManagement.this,
+                            "Error while adding resident!");
+                }
             }
         });
 
-        roomsButton.addActionListener(new ActionListener() {
+        updateResident.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[] RoomsColumnNames = {"Room Number", "Room State"};
-                DefaultTableModel defaultTableModel = new DefaultTableModel(null, RoomsColumnNames);
-                RoomsTable.setModel(defaultTableModel);
-                CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
-                cardLayout.show(contentPanel, "RoomsCard");
+                ArrayList<String> residentData = new ArrayList<String>();
+                ArrayList<String> bookingData = new ArrayList<String>();
+
+                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 0).toString());
+                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 1).toString());
+                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 2).toString());
+                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 3).toString());
+                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 4).toString());
+
+                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 3).toString());
+                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 5).toString());
+                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 7).toString());
+                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 8).toString());
+
+                EditResident editResidentOp = new EditResident(residentData);
+                EditBooking editBookingOp = new EditBooking(bookingData);
+
+                try {
+                    editResidentOp.execute();
+
+                    editBookingOp.execute();
+                } catch (IllegalArgumentException exc) {
+                    exc.printStackTrace();
+
+                    JOptionPane.showMessageDialog(HotelManagement.this,
+                            "Error while editing!");
+                }
+            }
+        });
+
+        deleteResident.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<String> residentData = new ArrayList<String>();
+                ArrayList<String> bookingData = new ArrayList<String>();
+
+                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 0).toString());
+                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 1).toString());
+                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 2).toString());
+                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 3).toString());
+                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 4).toString());
+
+                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 3).toString());
+                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 5).toString());
+                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 7).toString());
+                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 8).toString());
+
+                DeleteResident deleteResidentOp = new DeleteResident(residentData);
+
+                try {
+                    deleteResidentOp.execute();
+
+                    registry.freeRoom(Integer.parseInt(bookingData.get(1)));
+
+                    for (int j = 0; j < registry.getBookings().size(); j++) {
+                        if (registry.getBookings().get(j).getId() == Integer.parseInt(bookingData.getFirst())) {
+                            JOptionPane.showMessageDialog(HotelManagement.this,
+                                    "Total Payment is: $" + registry.getBookings().get(j).calculateCost());
+
+                            break;
+                        }
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+
+                    JOptionPane.showMessageDialog(HotelManagement.this,
+                            "Error while checking out!");
+                }
             }
         });
     }

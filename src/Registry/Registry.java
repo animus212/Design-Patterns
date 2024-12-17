@@ -74,6 +74,10 @@ public class Registry {
         this.rooms = rooms;
     }
 
+    public void freeRoom(int roomNumber) {
+        rooms.get(roomNumber).setAvailability(true);
+    }
+
     public ArrayList<Booking> getBookings() {
         return bookings;
     }
@@ -84,10 +88,16 @@ public class Registry {
 
     public void addBooking(Booking newBooking) {
         bookings.add(newBooking);
+
+        rooms.get(newBooking.getRoomNumber()).setAvailability(false);
     }
 
     public void editBooking(int bookingIndex, Booking newBooking) {
+        rooms.get(bookings.get(bookingIndex).getRoomNumber()).setAvailability(true);
+
         bookings.set(bookingIndex, newBooking);
+
+        rooms.get(newBooking.getRoomNumber()).setAvailability(false);
     }
 
     public Booking getBookingCopy(int bookingIndex) {
