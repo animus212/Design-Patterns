@@ -131,7 +131,7 @@ public class HotelManagement extends JFrame {
                 Object[][] data = new Object[registry.getWorkers().size()][workerColumnNames.length];
 
                 for (int i = 0; i < registry.getWorkers().size(); i++) {
-                    data[i][0] = registry.getWorkers().get(i).getId();
+                    data[i][0] = registry.getWorkers().get(i).getID();
                     data[i][1] = registry.getWorkers().get(i).getName();
                     data[i][2] = registry.getWorkers().get(i).getEmail();
                     data[i][3] = registry.getWorkers().get(i).getPhoneNumber();

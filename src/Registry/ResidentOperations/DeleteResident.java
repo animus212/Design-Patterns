@@ -9,6 +9,6 @@ public class DeleteResident extends ResidentOperation {
 
     @Override
     protected void doOperation() {
-        registry.removeResident(residentIndex);
+        REGISTRY.removeResident(residentIndex);
     }
 }

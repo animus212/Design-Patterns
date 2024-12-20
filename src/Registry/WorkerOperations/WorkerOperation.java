@@ -6,14 +6,14 @@ import Registry.Registry;
 import java.util.ArrayList;
 
 public abstract class WorkerOperation {
-    protected final ArrayList<String> workerData;
-    protected final Registry registry;
+    protected final ArrayList<String> WORKER_DATA;
+    protected final Registry REGISTRY;
     protected int workerIndex;
 
-    public WorkerOperation(ArrayList<String> workerData) {
-        this.registry = Registry.getInstance();
+    public WorkerOperation(ArrayList<String> WORKER_DATA) {
+        this.REGISTRY = Registry.getInstance();
 
-        this.workerData = workerData;
+        this.WORKER_DATA = WORKER_DATA;
     }
 
     public final void execute() {
@@ -24,8 +24,8 @@ public abstract class WorkerOperation {
     protected void preOperation() {
         int index = 0;
 
-        for (Worker storedWorker : registry.getWorkers()) {
-            if (storedWorker.getId() == Integer.parseInt(workerData.getFirst())) {
+        for (Worker storedWorker : REGISTRY.getWorkers()) {
+            if (storedWorker.getID() == Integer.parseInt(WORKER_DATA.getFirst())) {
                 workerIndex = index;
 
                 return;

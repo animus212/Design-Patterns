@@ -11,11 +11,11 @@ public class EditResident extends ResidentOperation {
 
     @Override
     protected void doOperation() {
-        Resident newResident = new Resident(residentData.getFirst(), Integer.parseInt(residentData.get(1)),
-                residentData.get(2), Integer.parseInt(residentData.get(3)));
+        Resident newResident = new Resident(RESIDENT_DATA.getFirst(), Integer.parseInt(RESIDENT_DATA.get(1)),
+                RESIDENT_DATA.get(2), Integer.parseInt(RESIDENT_DATA.get(3)));
 
-        newResident.setServiceList(residentData.getLast());
+        newResident.setServiceList(RESIDENT_DATA.getLast());
 
-        registry.editResident(residentIndex, newResident);
+        REGISTRY.editResident(residentIndex, newResident);
     }
 }

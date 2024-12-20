@@ -15,12 +15,12 @@ public class EditBooking extends BookingOperation {
     protected void preOperation() {
         int index = 0;
 
-        for (Booking storedBooking : registry.getBookings()) {
-            if (storedBooking.getId() == Integer.parseInt(bookingData.getFirst())) {
+        for (Booking storedBooking : REGISTRY.getBookings()) {
+            if (storedBooking.getId() == Integer.parseInt(BOOKING_DATA.getFirst())) {
                 bookingIndex = index;
 
-                if (storedBooking.getRoomNumber() != Integer.parseInt(bookingData.get(1)) &&
-                        !registry.getRooms().get(Integer.parseInt(bookingData.get(1))).isAvailable()) {
+                if (storedBooking.getRoomNumber() != Integer.parseInt(BOOKING_DATA.get(1)) &&
+                        !REGISTRY.getRooms().get(Integer.parseInt(BOOKING_DATA.get(1))).isAvailable()) {
                     throw new IllegalArgumentException("Room is not available!");
                 }
 
@@ -35,12 +35,12 @@ public class EditBooking extends BookingOperation {
 
     @Override
     protected void doOperation() {
-        Booking booking = registry.getBookingCopy(bookingIndex);
+        Booking booking = REGISTRY.getBookingCopy(bookingIndex);
 
-        booking.setRoomNumber(Integer.parseInt(bookingData.get(1)));
-        booking.setDurationOfStay(Integer.parseInt(bookingData.get(2)));
-        booking.setBoardingType(bookingData.get(3));
+        booking.setRoomNumber(Integer.parseInt(BOOKING_DATA.get(1)));
+        booking.setDurationOfStay(Integer.parseInt(BOOKING_DATA.get(2)));
+        booking.setBoardingType(BOOKING_DATA.get(3));
 
-        registry.editBooking(bookingIndex, booking);
+        REGISTRY.editBooking(bookingIndex, booking);
     }
 }

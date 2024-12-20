@@ -9,6 +9,6 @@ public class DeleteWorker extends WorkerOperation {
 
     @Override
     protected void doOperation() {
-        registry.removeWorker(workerIndex);
+        REGISTRY.removeWorker(workerIndex);
     }
 }

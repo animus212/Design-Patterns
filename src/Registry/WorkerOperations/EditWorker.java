@@ -11,9 +11,9 @@ public class EditWorker extends WorkerOperation {
 
     @Override
     protected void doOperation() {
-        Worker newWorker = new Worker(Integer.parseInt(workerData.getFirst()), workerData.get(1),
-                workerData.get(2), workerData.get(3), Double.parseDouble(workerData.get(4)), workerData.get(5));
+        Worker newWorker = new Worker(Integer.parseInt(WORKER_DATA.getFirst()), WORKER_DATA.get(1),
+                WORKER_DATA.get(2), WORKER_DATA.get(3), Double.parseDouble(WORKER_DATA.get(4)), WORKER_DATA.get(5));
 
-        registry.editWorker(workerIndex, newWorker);
+        REGISTRY.editWorker(workerIndex, newWorker);
     }
 }

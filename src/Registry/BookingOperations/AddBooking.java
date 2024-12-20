@@ -5,7 +5,7 @@ import Reservation.Booking;
 import java.util.ArrayList;
 
 public class AddBooking extends BookingOperation {
-    int roomNumber;
+    private int roomNumber;
 
     public AddBooking(ArrayList<String> bookingData) {
         super(bookingData);
@@ -15,10 +15,10 @@ public class AddBooking extends BookingOperation {
     protected void preOperation() {
         String roomType = "";
 
-        for (int i = 0; i < registry.getRooms().size(); i++) {
-            roomType = registry.getRooms().get(i).getClass().getSimpleName();
+        for (int i = 0; i < REGISTRY.getRooms().size(); i++) {
+            roomType = REGISTRY.getRooms().get(i).getClass().getSimpleName();
 
-            if (roomType.equals(bookingData.getLast()) && registry.getRooms().get(i).isAvailable()) {
+            if (roomType.equals(BOOKING_DATA.getLast()) && REGISTRY.getRooms().get(i).isAvailable()) {
                 roomNumber = i;
 
                 return;
@@ -30,8 +30,8 @@ public class AddBooking extends BookingOperation {
 
     @Override
     protected void doOperation() {
-        Booking newBooking = new Booking(roomNumber, Integer.parseInt(bookingData.get(0)), bookingData.get(1));
+        Booking newBooking = new Booking(roomNumber, Integer.parseInt(BOOKING_DATA.get(0)), BOOKING_DATA.get(1));
 
-        registry.addBooking(newBooking);
+        REGISTRY.addBooking(newBooking);
     }
 }

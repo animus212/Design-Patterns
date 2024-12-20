@@ -1,0 +1,209 @@
+@startuml
+package Boarding <<Frame>> {
+  interface BoardingType {
+    + {abstract} getCost() : double
+  }
+
+  class BedAndBreakfast implements BoardingType {
+    + getCost() : double
+  }
+
+  class HalfBoard implements BoardingType {
+    + getCost() : double
+  }
+
+  class FullBoard implements BoardingType {
+    + getCost() : double
+  }
+
+  class BoardingFactory {
+    + createBoarding(boardingType: String) : BoardingType
+  }
+
+  BoardingFactory --> BoardingType : Creates
+}
+
+package Employee <<Frame>> {
+  class Worker {
+    - ID : int
+    - name : String
+    - email : String
+    - phoneNumber : String
+    - salary : double
+    - jobTitle : String
+
+    + Worker(ID : int, name : String, email : String, phoneNumber : String, salary : double, jobTitle : String)
+
+    + getID() : int
+
+    + getName() : String
+
+    + setName(name : String) : void
+
+    + getEmail() : String
+
+    + setEmail(email : String) : void
+
+    + getPhoneNumber() : String
+
+    + setPhoneNumber(phoneNumber : String) : void
+
+    + getSalary() : double
+
+    + setSalary(salary : double) : void
+
+    + getJobTitle() : String
+
+    + setJobTitle(jobTitle : String) : void
+  }
+}
+
+package Registry <<Frame>> {
+  package BookingOperations <<Frame>> {
+    abstract class BookingOperation {
+      # BOOKING_DATA : ArrayList<String>
+      # REGISTRY : Registry
+
+      + BookingOperation(BOOKING_DATA : ArrayList<String>)
+
+      + execute() : void
+
+      # {abstract} preOperation() : void
+
+      # {abstract} doOperation() : void
+    }
+
+    class AddBooking extends BookingOperation {
+      - roomNumber : int
+
+      # preOperation() : void
+
+      # doOperation() : void
+    }
+
+    class EditBooking extends BookingOperation {
+      - bookingIndex : int
+
+      # preOperation() : void
+
+      # doOperation() : void
+    }
+
+    BookingOperation ..> Booking
+  }
+
+  package ResidentOperations <<Frame>> {
+    abstract class ResidentOperation {
+      # RESIDENT_DATA : ArrayList<String>
+      # REGISTRY : Registry
+      # residentIndex : int
+
+      + ResidentOperation(RESIDENT_DATA : ArrayList<String>)
+
+      + execute() : void
+
+      # preOperation() : void
+
+      # {abstract} doOperation() : void
+    }
+
+    class AddResident extends ResidentOperation {
+      # preOperation() : void
+
+      # doOperation() : void
+    }
+
+    class EditResident extends ResidentOperation {
+      # doOperation() : void
+    }
+
+    class DeleteResident extends ResidentOperation {
+      # doOperation() : void
+    }
+
+    ResidentOperation ..> Resident
+  }
+
+  package WorkerOperations <<Frame>> {
+    abstract class WorkerOperation {
+      # WORKER_DATA : ArrayList<String>
+      # REGISTRY : Registry
+      # workerIndex : int
+
+      + WorkerOperation(WORKER_DATA : ArrayList<String>)
+
+      + execute() : void
+
+      # preOperation() : void
+
+      # {abstract} doOperation() : void
+    }
+
+    class AddWorker extends WorkerOperation {
+      # preOperation() : void
+
+      # doOperation() : void
+    }
+
+    class EditWorker extends WorkerOperation {
+      # doOperation() : void
+    }
+
+    class DeleteWorker extends WorkerOperation {
+      # doOperation() : void
+    }
+
+    WorkerOperation .left.> Worker
+  }
+
+  class Registry {
+    - {static} REGISTRY : Registry
+    - workers : ArrayList<Worker>
+    - residents : ArrayList<Resident>
+    - rooms : ArrayList<Room>
+    - bookings : ArrayList<Booking>
+
+    - Registry()
+
+    + {static} getInstance() : Registry
+
+    + getWorkers() : ArrayList<Worker>
+
+    + setWorkers(workers : ArrayList<Worker>) : void
+
+    + addWorker(newWorker : Worker) : void
+
+    + removeWorker(workerIndex : int) : void
+
+    + editWorker(workerIndex : int, newWorker : Worker) : void
+
+    + getResidents() : ArrayList<Resident>
+
+    + setResidents(residents : ArrayList<Resident>) : void
+
+    + addResident(newResident : Resident) : void
+
+    + removeResident(residentIndex : int) : void
+
+    + editResident(residentIndex : int, newResident : Resident) : void
+
+    + getRooms() : ArrayList<Room>
+
+    + setRooms(rooms : ArrayList<Room>) : void
+
+    + freeRoom(roomNumber : int) : void
+
+    + getBookings() : ArrayList<Booking>
+
+    + setBookings(bookings : ArrayList<Booking>) : void
+
+    + addBooking(newBooking : Booking) : void
+
+    + editBooking(bookingIndex : int, newBooking : Booking) : void
+
+    + getBookingCopy(bookingIndex : int) : Booking
+  }
+
+  Registry -down[hidden]-> WorkerOperation
+}
+@enduml

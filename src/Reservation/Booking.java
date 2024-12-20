@@ -10,7 +10,7 @@ public class Booking implements Cloneable {
     private final int id;
     private final BoardingFactory factory;
     private final LocalDate date;
-    private int roomNumber; // Room index in the registry since rooms never change.
+    private int roomNumber; // Room index in the REGISTRY since rooms never change.
     private int durationOfStay;
     private String boardingType;
 

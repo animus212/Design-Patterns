@@ -6,14 +6,14 @@ import Reservation.Resident;
 import java.util.ArrayList;
 
 public abstract class ResidentOperation {
-    protected final ArrayList<String> residentData;
-    protected final Registry registry;
+    protected final ArrayList<String> RESIDENT_DATA;
+    protected final Registry REGISTRY;
     protected int residentIndex;
 
-    public ResidentOperation(ArrayList<String> residentData) {
-        this.registry = Registry.getInstance();
+    public ResidentOperation(ArrayList<String> RESIDENT_DATA) {
+        this.REGISTRY = Registry.getInstance();
 
-        this.residentData = residentData;
+        this.RESIDENT_DATA = RESIDENT_DATA;
     }
 
     public final void execute() {
@@ -24,8 +24,8 @@ public abstract class ResidentOperation {
     protected void preOperation() {
         int index = 0;
 
-        for (Resident storedResident : registry.getResidents()) {
-            if (storedResident.getPhoneNumber().equalsIgnoreCase(residentData.get(2))) {
+        for (Resident storedResident : REGISTRY.getResidents()) {
+            if (storedResident.getPhoneNumber().equalsIgnoreCase(RESIDENT_DATA.get(2))) {
                 residentIndex = index;
 
                 return;

@@ -26,7 +26,7 @@ public class Files {
             FileWriter workerWriter = new FileWriter(workersFile.getPath());
 
             for (Worker worker : Registry.getInstance().getWorkers()) {
-                workerWriter.write(worker.getId() + "," + worker.getName() + "," + worker.getEmail() + ","
+                workerWriter.write(worker.getID() + "," + worker.getName() + "," + worker.getEmail() + ","
                         + worker.getPhoneNumber() + "," + worker.getSalary() + "," + worker.getJobTitle() + "\n");
             }
 

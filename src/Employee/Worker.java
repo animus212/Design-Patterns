@@ -1,15 +1,15 @@
 package Employee;
 
 public class Worker {
-    private final int id;
+    private final int ID;
     private String name;
     private String email;
     private String phoneNumber;
-    private Double salary;
+    private double salary;
     private String jobTitle;
 
-    public Worker(int id, String name, String email, String phoneNumber, Double salary, String jobTitle) {
-        this.id = id;
+    public Worker(int ID, String name, String email, String phoneNumber, double salary, String jobTitle) {
+        this.ID = ID;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -17,8 +17,8 @@ public class Worker {
         this.jobTitle = jobTitle;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
     public String getName() {
@@ -45,11 +45,11 @@ public class Worker {
         this.phoneNumber = phoneNumber;
     }
 
-    public Double getSalary() {
+    public double getSalary() {
         return salary;
     }
 
-    public void setSalary(Double salary) {
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 
