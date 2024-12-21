@@ -12,7 +12,7 @@ public class AddResident extends ResidentOperation {
     @Override
     protected void preOperation() {
         for (Resident storedResident : REGISTRY.getResidents()) {
-            if (storedResident.getPhoneNumber().equalsIgnoreCase(RESIDENT_DATA.get(2))) {
+            if (storedResident.getPHONE_NUMBER().equalsIgnoreCase(RESIDENT_DATA.get(2))) {
                 throw new IllegalArgumentException("Resident Already Exists!");
             }
         }

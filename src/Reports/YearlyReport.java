@@ -1,4 +1,4 @@
-package Report;
+package Reports;
 
 import Registry.Registry;
 import Reservation.Booking;
@@ -15,7 +15,7 @@ public class YearlyReport implements Report {
         ArrayList<Booking> bookings = Registry.getInstance().getBookings();
 
         for (Booking booking : bookings) {
-            if (!booking.getDate().isBefore(lastYear[0]) && !booking.getDate().isAfter(lastYear[1])) {
+            if (!booking.getDATE().isBefore(lastYear[0]) && !booking.getDATE().isAfter(lastYear[1])) {
                 yearlyIncome += booking.calculateCost();
             }
         }

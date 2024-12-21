@@ -1,4 +1,4 @@
-package Report;
+package Reports;
 
 import Registry.Registry;
 import Reservation.Booking;
@@ -15,7 +15,7 @@ public class MonthlyReport implements Report {
         ArrayList<Booking> bookings = Registry.getInstance().getBookings();
 
         for (Booking booking : bookings) {
-            if (!booking.getDate().isBefore(lastMonth[0]) && !booking.getDate().isAfter(lastMonth[1])) {
+            if (!booking.getDATE().isBefore(lastMonth[0]) && !booking.getDATE().isAfter(lastMonth[1])) {
                 monthlyIncome += booking.calculateCost();
             }
         }

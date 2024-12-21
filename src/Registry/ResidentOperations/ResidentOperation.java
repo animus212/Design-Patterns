@@ -25,7 +25,7 @@ public abstract class ResidentOperation {
         int index = 0;
 
         for (Resident storedResident : REGISTRY.getResidents()) {
-            if (storedResident.getPhoneNumber().equalsIgnoreCase(RESIDENT_DATA.get(2))) {
+            if (storedResident.getPHONE_NUMBER().equalsIgnoreCase(RESIDENT_DATA.get(2))) {
                 residentIndex = index;
 
                 return;

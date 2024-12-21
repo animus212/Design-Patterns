@@ -1,4 +1,4 @@
-package Report;
+package Reports;
 
 public interface Report {
     double generateReport();

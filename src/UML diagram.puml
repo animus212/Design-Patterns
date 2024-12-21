@@ -19,8 +19,6 @@ package Boarding <<Frame>> {
   class BoardingFactory {
     + createBoarding(boardingType: String) : BoardingType
   }
-
-  BoardingFactory --> BoardingType : Creates
 }
 
 package Employee <<Frame>> {
@@ -88,8 +86,6 @@ package Registry <<Frame>> {
 
       # doOperation() : void
     }
-
-    BookingOperation ..> Booking
   }
 
   package ResidentOperations <<Frame>> {
@@ -120,8 +116,6 @@ package Registry <<Frame>> {
     class DeleteResident extends ResidentOperation {
       # doOperation() : void
     }
-
-    ResidentOperation ..> Resident
   }
 
   package WorkerOperations <<Frame>> {
@@ -152,8 +146,6 @@ package Registry <<Frame>> {
     class DeleteWorker extends WorkerOperation {
       # doOperation() : void
     }
-
-    WorkerOperation .left.> Worker
   }
 
   class Registry {
@@ -203,7 +195,200 @@ package Registry <<Frame>> {
 
     + getBookingCopy(bookingIndex : int) : Booking
   }
-
-  Registry -down[hidden]-> WorkerOperation
 }
+
+package Reports <<Frame>> {
+  interface Report {
+    + {abstract} generateReport() : double
+  }
+
+  class WeeklyReports implements Report {
+    + generateReport() : double
+  }
+
+  class MonthlyReports implements Report {
+    + generateReport() : double
+  }
+
+  class YearlyReports implements Report {
+    + generateReport() : double
+  }
+}
+
+package Reservation <<Frame>> {
+  class Booking {
+    - {static} lastId : int
+    - ID : int
+    - FACTORY : BoardingFactory
+    - DATE : LocalDate
+    - roomNumber : int
+    - durationOfStay : int
+    - boardingType : String
+
+    + Booking(roomNumber : int, durationOfStay : int, boardingType : String)
+
+    + Booking(ID : int, roomNumber : int, durationOfStay : int, boardingType : String, DATE : LocalDate)
+
+    + {static} getLastId() : int
+
+    + {static} setLastId(lastId : int) : void
+
+    + getDATE() : LocalDate
+
+    + getID() : int
+
+    + getRoomNumber() : int
+
+    + setRoomNumber(roomNumber : int) : void
+
+    + getDurationOfStay() : int
+
+    + setDurationOfStay(durationOfStay : int) : void
+
+    + getFACTORY() : BoardingFactory
+
+    + getBoardingType() : String
+
+    + setBoardingType(boardingType : String) : void
+
+    + calculateCost() : double
+
+    + clone() : Object
+  }
+
+  class Resident {
+    - PHONE_NUMBER : String
+    - BOOKING_ID : int
+    - name : String
+    - age : int
+    - serviceList : String
+
+    + Resident(name : String, age : int, PHONE_NUMBER : String, BOOKING_ID : int)
+
+    + getName() : String
+
+    + setName(name : String) : void
+
+    + getAge() : int
+
+    + setAge(age : int) : void
+
+    + getPHONE_NUMBER() : String
+
+    + getBOOKING_ID() : int
+
+    + getServiceList() : String
+
+    + setServiceList(serviceList : String) : void
+  }
+}
+
+package Room <<Frame>> {
+  abstract class Room {
+    # available : boolean
+
+    + Room(available : boolean)
+
+    + isAvailable() : boolean
+
+    + setAvailability(available : boolean) : void
+
+    + {abstract} getCost() : double
+  }
+
+  class SingleRoom extends Room {
+    + double getCost() : double
+  }
+
+  class DoubleRoom extends Room {
+    + double getCost() : double
+  }
+
+  class TripleRoom extends Room {
+    + double getCost() : double
+  }
+
+  class RoomFactory {
+    + createRoom(RoomType : String, available : boolean) : Room
+  }
+}
+
+package Utility <<Frame>> {
+  class Utility {
+    + {static} getPreviousWeek(date : LocalDate) : LocalDate[]
+
+    + {static} getPreviousMonth(date : LocalDate) : LocalDate[]
+
+    + {static} getPreviousYear(date : LocalDate) : LocalDate[]
+  }
+
+  class Files {
+    + {static} saveWorkers() : void
+
+    + {static} readWorkers() : void
+
+    + {static} saveResidents() : void
+
+    + {static} readResidents() : void
+
+    + {static} saveBookings() : void
+
+    + {static} readBookings() : void
+
+    + {static} saveRooms() : void
+
+    + {static} readRooms() : void
+  }
+}
+
+class Main {
+  + {static} main(args : String[]) : void
+}
+
+class HotelManagement <<GUI>> {
+  - REGISTRY : Registry
+  - report : Report
+  - isReceptionist : boolean
+
+  + HotelManagement()
+}
+
+Main .down.> Utility.Files
+
+Main .right.> HotelManagement
+
+Reports .left.> Utility.Utility
+
+Room.RoomFactory --> Room.Room
+Registry.Registry --> Room.Room
+Reservation.Booking .up.> Room.Room
+
+HotelManagement --> Reports.Report
+
+Utility.Files ..> Room.RoomFactory
+
+Utility.Files .left.> Employee.Worker
+Registry.Registry -left-> Employee.Worker
+Registry.WorkerOperations .left.> Employee.Worker
+
+Reservation.Booking --> Boarding.BoardingFactory
+
+Boarding.BoardingFactory --> Boarding.BoardingType
+
+Reports ..> Reservation.Booking
+Utility.Files ..> Reservation.Booking
+Registry.Registry --> Reservation.Booking
+Registry.BookingOperations .right.> Reservation.Booking
+
+Utility.Files ..> Reservation.Resident
+Registry.Registry --> Reservation.Resident
+Reservation.Booking --o Reservation.Resident
+Registry.ResidentOperations ..> Reservation.Resident
+
+Reports ..> Registry.Registry
+Utility.Files ..> Registry.Registry
+HotelManagement -left-> Registry
+Registry.WorkerOperations -up-> Registry.Registry
+Registry.BookingOperations -up-> Registry.Registry
+Registry.ResidentOperations -up-> Registry.Registry
 @enduml

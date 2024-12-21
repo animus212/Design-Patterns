@@ -2,6 +2,11 @@ package Room;
 
 public class DoubleRoom extends Room {
     public DoubleRoom(boolean available) {
-        super(available, 1000.0);
+        super(available);
+    }
+
+    @Override
+    public double getCost() {
+        return 1000.0;
     }
 }

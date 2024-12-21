@@ -2,11 +2,9 @@ package Room;
 
 public abstract class Room {
     protected boolean available;
-    protected double cost;
 
-    public Room(boolean available, double cost) {
+    public Room(boolean available) {
         this.available = available;
-        this.cost = cost;
     }
 
     public boolean isAvailable() {
@@ -17,11 +15,5 @@ public abstract class Room {
         this.available = available;
     }
 
-    public double getCost() {
-        return cost;
-    }
-
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
+    public abstract double getCost();
 }

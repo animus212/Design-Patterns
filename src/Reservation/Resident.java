@@ -1,17 +1,17 @@
 package Reservation;
 
 public class Resident {
-    private final String phoneNumber; // ID
-    private final int bookingId;
+    private final String PHONE_NUMBER; // ID
+    private final int BOOKING_ID;
     private String name;
     private int age;
     private String serviceList;
 
-    public Resident(String name, int age, String phoneNumber, int bookingId) {
+    public Resident(String name, int age, String PHONE_NUMBER, int BOOKING_ID) {
         this.name = name;
         this.age = age;
-        this.phoneNumber = phoneNumber;
-        this.bookingId = bookingId;
+        this.PHONE_NUMBER = PHONE_NUMBER;
+        this.BOOKING_ID = BOOKING_ID;
         this.serviceList = "";
     }
 
@@ -31,12 +31,12 @@ public class Resident {
         this.age = age;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPHONE_NUMBER() {
+        return PHONE_NUMBER;
     }
 
-    public int getBookingId() {
-        return bookingId;
+    public int getBOOKING_ID() {
+        return BOOKING_ID;
     }
 
     public String getServiceList() {

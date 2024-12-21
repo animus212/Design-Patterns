@@ -7,10 +7,10 @@ import Registry.ResidentOperations.EditResident;
 import Registry.WorkerOperations.AddWorker;
 import Registry.WorkerOperations.DeleteWorker;
 import Registry.WorkerOperations.EditWorker;
-import Report.MonthlyReport;
-import Report.Report;
-import Report.WeeklyReport;
-import Report.YearlyReport;
+import Reports.MonthlyReport;
+import Reports.Report;
+import Reports.WeeklyReport;
+import Reports.YearlyReport;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -20,7 +20,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class HotelManagement extends JFrame {
-    private final Registry registry = Registry.getInstance();
+    private final Registry REGISTRY = Registry.getInstance();
     private JPanel ContainerPanel;
     private JLabel hotelName;
     private JPanel subMenu;
@@ -128,15 +128,15 @@ public class HotelManagement extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String[] workerColumnNames = {"ID", "Name", "E-mail", "Phone Number", "Salary", "Job Title"};
-                Object[][] data = new Object[registry.getWorkers().size()][workerColumnNames.length];
+                Object[][] data = new Object[REGISTRY.getWorkers().size()][workerColumnNames.length];
 
-                for (int i = 0; i < registry.getWorkers().size(); i++) {
-                    data[i][0] = registry.getWorkers().get(i).getID();
-                    data[i][1] = registry.getWorkers().get(i).getName();
-                    data[i][2] = registry.getWorkers().get(i).getEmail();
-                    data[i][3] = registry.getWorkers().get(i).getPhoneNumber();
-                    data[i][4] = registry.getWorkers().get(i).getSalary();
-                    data[i][5] = registry.getWorkers().get(i).getJobTitle();
+                for (int i = 0; i < REGISTRY.getWorkers().size(); i++) {
+                    data[i][0] = REGISTRY.getWorkers().get(i).getID();
+                    data[i][1] = REGISTRY.getWorkers().get(i).getName();
+                    data[i][2] = REGISTRY.getWorkers().get(i).getEmail();
+                    data[i][3] = REGISTRY.getWorkers().get(i).getPhoneNumber();
+                    data[i][4] = REGISTRY.getWorkers().get(i).getSalary();
+                    data[i][5] = REGISTRY.getWorkers().get(i).getJobTitle();
                 }
 
                 DefaultTableModel defaultTableModel = new DefaultTableModel(data, workerColumnNames) {
@@ -247,22 +247,22 @@ public class HotelManagement extends JFrame {
                 String[] ResColumnNames = {"Name", "Age", "Phone Number", "Booking ID", "Services",
                         "Room Number", "Room Type", "Duration of Stay", "Boarding Type"};
 
-                Object[][] data = new Object[registry.getResidents().size()][ResColumnNames.length];
+                Object[][] data = new Object[REGISTRY.getResidents().size()][ResColumnNames.length];
 
-                for (int i = 0; i < registry.getResidents().size(); i++) {
-                    data[i][0] = registry.getResidents().get(i).getName();
-                    data[i][1] = registry.getResidents().get(i).getAge();
-                    data[i][2] = registry.getResidents().get(i).getPhoneNumber();
-                    data[i][3] = registry.getResidents().get(i).getBookingId();
-                    data[i][4] = registry.getResidents().get(i).getServiceList();
+                for (int i = 0; i < REGISTRY.getResidents().size(); i++) {
+                    data[i][0] = REGISTRY.getResidents().get(i).getName();
+                    data[i][1] = REGISTRY.getResidents().get(i).getAge();
+                    data[i][2] = REGISTRY.getResidents().get(i).getPHONE_NUMBER();
+                    data[i][3] = REGISTRY.getResidents().get(i).getBOOKING_ID();
+                    data[i][4] = REGISTRY.getResidents().get(i).getServiceList();
 
-                    for (int j = 0; j < registry.getBookings().size(); j++) {
-                        if (registry.getResidents().get(i).getBookingId() == registry.getBookings().get(j).getId()) {
-                            data[i][5] = registry.getBookings().get(j).getRoomNumber();
-                            data[i][6] = registry.getRooms().get(Integer.parseInt(data[i][5].toString()))
+                    for (int j = 0; j < REGISTRY.getBookings().size(); j++) {
+                        if (REGISTRY.getResidents().get(i).getBOOKING_ID() == REGISTRY.getBookings().get(j).getID()) {
+                            data[i][5] = REGISTRY.getBookings().get(j).getRoomNumber();
+                            data[i][6] = REGISTRY.getRooms().get(Integer.parseInt(data[i][5].toString()))
                                     .getClass().getSimpleName();
-                            data[i][7] = registry.getBookings().get(j).getDurationOfStay();
-                            data[i][8] = registry.getBookings().get(j).getBoardingType();
+                            data[i][7] = REGISTRY.getBookings().get(j).getDurationOfStay();
+                            data[i][8] = REGISTRY.getBookings().get(j).getBoardingType();
                         }
                     }
                 }
@@ -307,12 +307,12 @@ public class HotelManagement extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String[] RoomsColumnNames = {"Room Number", "Room Type", "Room Availability"};
-                Object[][] data = new Object[registry.getRooms().size()][RoomsColumnNames.length];
+                Object[][] data = new Object[REGISTRY.getRooms().size()][RoomsColumnNames.length];
 
-                for (int i = 0; i < registry.getRooms().size(); i++) {
+                for (int i = 0; i < REGISTRY.getRooms().size(); i++) {
                     data[i][0] = i;
-                    data[i][1] = registry.getRooms().get(i).getClass().getSimpleName();
-                    data[i][2] = registry.getRooms().get(i).isAvailable() ? "Available" : "Occupied";
+                    data[i][1] = REGISTRY.getRooms().get(i).getClass().getSimpleName();
+                    data[i][2] = REGISTRY.getRooms().get(i).isAvailable() ? "Available" : "Occupied";
                 }
 
                 DefaultTableModel defaultTableModel = new DefaultTableModel(data, RoomsColumnNames) {
@@ -361,7 +361,7 @@ public class HotelManagement extends JFrame {
 
                     addBookingOp.execute();
 
-                    residentData.set(3, String.valueOf(registry.getBookings().getLast().getId()));
+                    residentData.set(3, String.valueOf(REGISTRY.getBookings().getLast().getID()));
                     residentData.add("");
 
                     editResidentOp = new EditResident(residentData);
@@ -441,10 +441,10 @@ public class HotelManagement extends JFrame {
                 DeleteResident deleteResidentOp = new DeleteResident(residentData);
 
                 try {
-                    for (int j = 0; j < registry.getBookings().size(); j++) {
-                        if (registry.getBookings().get(j).getId() == Integer.parseInt(bookingData.getFirst())) {
+                    for (int j = 0; j < REGISTRY.getBookings().size(); j++) {
+                        if (REGISTRY.getBookings().get(j).getID() == Integer.parseInt(bookingData.getFirst())) {
                             JOptionPane.showMessageDialog(HotelManagement.this,
-                                    "Total Payment is: $" + registry.getBookings().get(j).calculateCost());
+                                    "Total Payment is: $" + REGISTRY.getBookings().get(j).calculateCost());
 
                             break;
                         }
@@ -452,7 +452,7 @@ public class HotelManagement extends JFrame {
 
                     deleteResidentOp.execute();
 
-                    registry.freeRoom(Integer.parseInt(bookingData.get(1)));
+                    REGISTRY.freeRoom(Integer.parseInt(bookingData.get(1)));
                 } catch (Exception ex) {
                     ex.printStackTrace();
 

@@ -16,7 +16,7 @@ public class EditBooking extends BookingOperation {
         int index = 0;
 
         for (Booking storedBooking : REGISTRY.getBookings()) {
-            if (storedBooking.getId() == Integer.parseInt(BOOKING_DATA.getFirst())) {
+            if (storedBooking.getID() == Integer.parseInt(BOOKING_DATA.getFirst())) {
                 bookingIndex = index;
 
                 if (storedBooking.getRoomNumber() != Integer.parseInt(BOOKING_DATA.get(1)) &&

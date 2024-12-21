@@ -1,4 +1,4 @@
-package Report;
+package Reports;
 
 import Registry.Registry;
 import Reservation.Booking;
@@ -15,7 +15,7 @@ public class WeeklyReport implements Report {
         ArrayList<Booking> bookings = Registry.getInstance().getBookings();
 
         for (Booking booking : bookings) {
-            if (!booking.getDate().isBefore(lastWeek[0]) && !booking.getDate().isAfter(lastWeek[1])) {
+            if (!booking.getDATE().isBefore(lastWeek[0]) && !booking.getDATE().isAfter(lastWeek[1])) {
                 weeklyIncome += booking.calculateCost();
             }
         }

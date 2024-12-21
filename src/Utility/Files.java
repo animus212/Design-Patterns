@@ -71,7 +71,7 @@ public class Files {
 
             for (Resident resident : Registry.getInstance().getResidents()) {
                 residentWriter.write(resident.getName() + "," + resident.getAge() + "," +
-                        resident.getPhoneNumber() + "," + resident.getBookingId() + "," +
+                        resident.getPHONE_NUMBER() + "," + resident.getBOOKING_ID() + "," +
                         resident.getServiceList() + "\n");
             }
 
@@ -122,9 +122,9 @@ public class Files {
             FileWriter bookingsWriter = new FileWriter(bookingsFile.getPath());
 
             for (Booking booking : Registry.getInstance().getBookings()) {
-                bookingsWriter.write(booking.getId() + "," + booking.getRoomNumber() + "," +
+                bookingsWriter.write(booking.getID() + "," + booking.getRoomNumber() + "," +
                         booking.getDurationOfStay() + "," + booking.getBoardingType() + "," +
-                        booking.getDate() + "\n");
+                        booking.getDATE() + "\n");
             }
 
             bookingsWriter.close();
@@ -150,7 +150,7 @@ public class Files {
                         bookingDetails[3], LocalDate.parse(bookingDetails[4])));
             }
 
-            Booking.setLastId(Registry.getInstance().getBookings().getLast().getId() + 1);
+            Booking.setLastId(Registry.getInstance().getBookings().getLast().getID() + 1);
 
             bookingReader.close();
         } catch (FileNotFoundException e) {

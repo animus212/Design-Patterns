@@ -7,31 +7,31 @@ import java.time.LocalDate;
 
 public class Booking implements Cloneable {
     private static int lastId = 0;
-    private final int id;
-    private final BoardingFactory factory;
-    private final LocalDate date;
+    private final int ID;
+    private final BoardingFactory FACTORY;
+    private final LocalDate DATE;
     private int roomNumber; // Room index in the REGISTRY since rooms never change.
     private int durationOfStay;
     private String boardingType;
 
     public Booking(int roomNumber, int durationOfStay, String boardingType) {
-        this.id = lastId;
+        this.ID = lastId;
         this.roomNumber = roomNumber;
         this.durationOfStay = durationOfStay;
-        this.factory = new BoardingFactory();
+        this.FACTORY = new BoardingFactory();
         this.boardingType = boardingType;
-        this.date = LocalDate.now();
+        this.DATE = LocalDate.now();
 
         lastId += 1;
     }
 
-    public Booking(int id, int roomNumber, int durationOfStay, String boardingType, LocalDate date) {
-        this.id = id;
+    public Booking(int ID, int roomNumber, int durationOfStay, String boardingType, LocalDate DATE) {
+        this.ID = ID;
         this.roomNumber = roomNumber;
         this.durationOfStay = durationOfStay;
         this.boardingType = boardingType;
-        this.date = date;
-        this.factory = new BoardingFactory();
+        this.DATE = DATE;
+        this.FACTORY = new BoardingFactory();
     }
 
     public static int getLastId() {
@@ -42,12 +42,12 @@ public class Booking implements Cloneable {
         Booking.lastId = lastId;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getDATE() {
+        return DATE;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
     public int getRoomNumber() {
@@ -66,8 +66,8 @@ public class Booking implements Cloneable {
         this.durationOfStay = durationOfStay;
     }
 
-    public BoardingFactory getFactory() {
-        return factory;
+    public BoardingFactory getFACTORY() {
+        return FACTORY;
     }
 
     public String getBoardingType() {
@@ -80,7 +80,7 @@ public class Booking implements Cloneable {
 
     public double calculateCost() {
         return (Registry.getInstance().getRooms().get(roomNumber).getCost() +
-                factory.createBoarding(boardingType).getCost()) * durationOfStay;
+                FACTORY.createBoarding(boardingType).getCost()) * durationOfStay;
     }
 
     @Override
