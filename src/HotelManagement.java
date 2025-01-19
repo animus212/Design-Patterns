@@ -1,16 +1,8 @@
-import Registry.BookingOperations.AddBooking;
-import Registry.BookingOperations.EditBooking;
+import Registry.BookingOperations.*;
 import Registry.Registry;
-import Registry.ResidentOperations.AddResident;
-import Registry.ResidentOperations.DeleteResident;
-import Registry.ResidentOperations.EditResident;
-import Registry.WorkerOperations.AddWorker;
-import Registry.WorkerOperations.DeleteWorker;
-import Registry.WorkerOperations.EditWorker;
-import Reports.MonthlyReport;
-import Reports.Report;
-import Reports.WeeklyReport;
-import Reports.YearlyReport;
+import Registry.ResidentOperations.*;
+import Registry.WorkerOperations.*;
+import Reports.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -21,7 +13,7 @@ import java.util.ArrayList;
 
 public class HotelManagement extends JFrame {
     private final Registry REGISTRY = Registry.getInstance();
-    private JPanel ContainerPanel;
+    private JPanel containerPanel;
     private JLabel hotelName;
     private JPanel subMenu;
     private JPanel contentPanel;
@@ -30,58 +22,65 @@ public class HotelManagement extends JFrame {
     private JButton loginButton;
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private JLabel userNameLabel;
+    private JLabel usernameLabel;
     private JLabel passwordLabel;
-    private JButton workersButton;
-    private JButton residentsButton;
+    private JButton workerButton;
+    private JButton residentButton;
     private JButton incomeButton;
-    private JButton roomsButton;
-    private JPanel manageWorkers;
-    private JTable workersTable;
-    private JButton deleteWorker;
-    private JButton updateWorker;
-    private JButton addWorker;
-    private JScrollPane workersScrollPane;
-    private JTable residentsTable;
-    private JButton deleteResident;
-    private JButton updateResident;
-    private JButton addResident;
+    private JButton roomButton;
+    private JPanel workerPanel;
+    private JTable workerTable;
+    private JButton deleteWorkerButton;
+    private JButton updateWorkerButton;
+    private JButton addWorkerPanelButton;
+    private JScrollPane workerScrollPane;
+    private JTable residentTable;
+    private JButton checkOutButton;
+    private JButton updateResidentButton;
+    private JButton checkInButton;
     private JScrollPane residentScrollPane;
-    private JPanel manageResidents;
+    private JPanel residentPanel;
     private JPanel incomePanel;
     private JComboBox incomeBox;
-    private JButton showIncome;
-    private JTextField incomeValue;
-    private JPanel addResidentPanel;
-    private JTextField textField1;
-    private JLabel Resname;
-    private JLabel ResPhone;
-    private JTextField textField4;
-    private JButton Book;
-    private JLabel ResAge;
-    private JLabel Duration;
-    private JPanel RoomsPanel;
-    private JTable RoomsTable;
-    private JComboBox RoomType_Combox;
-    private JComboBox BoardingType_Combox;
-    private JLabel roomType;
-    private JLabel boardingType;
+    private JButton showIncomeButton;
+    private JTextField incomeField;
+    private JPanel checkInPanel;
+    private JTextField residentNameField;
+    private JLabel residentNameLabel;
+    private JLabel residentPhoneLabel;
+    private JTextField residentDurationField;
+    private JButton bookButton;
+    private JLabel residentAgeLabel;
+    private JLabel residentDurationLabel;
+    private JPanel roomPanel;
+    private JTable roomTable;
+    private JComboBox roomTypeBox;
+    private JComboBox boardingTypeBox;
+    private JLabel roomTypeLabel;
+    private JLabel boardingTypeLabel;
     private JPanel AddWorkerPanel;
-    private JTextField textField5;
-    private JTextField textField6;
-    private JTextField textField7;
-    private JTextField textField8;
-    private JTextField textField9;
-    private JButton AddWorker_Button;
-    private JTextField textField10;
-    private JLabel incomeType;
-    private JTextField textField2;
-    private JTextField textField3;
+    private JTextField workerNameField;
+    private JTextField workerEmailField;
+    private JTextField workerPhoneField;
+    private JTextField workerSalaryField;
+    private JTextField workerTitleField;
+    private JButton addWorkerButton;
+    private JTextField workerIdField;
+    private JLabel incomeLabel;
+    private JTextField residentPhoneField;
+    private JTextField residentAgeField;
+    private JScrollPane roomScrollPane;
+    private JLabel workerNameLabel;
+    private JLabel workerTitleLabel;
+    private JLabel workerEmailLabel;
+    private JLabel workerSalaryLabel;
+    private JLabel workerPhoneLabel;
+    private JLabel workerIdLabel;
     private Report report;
     private boolean isReceptionist = false;
 
     public HotelManagement() {
-        setContentPane(ContainerPanel);
+        setContentPane(containerPanel);
         setTitle("Hotel Management System");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(600, 400);
@@ -92,12 +91,12 @@ public class HotelManagement extends JFrame {
         incomeBox.addItem("Annual");
         incomeBox.addItem("Monthly");
         incomeBox.addItem("Weekly");
-        RoomType_Combox.addItem("SingleRoom");
-        RoomType_Combox.addItem("DoubleRoom");
-        RoomType_Combox.addItem("TripleRoom");
-        BoardingType_Combox.addItem("Bed & Breakfast");
-        BoardingType_Combox.addItem("Half Board");
-        BoardingType_Combox.addItem("Full Board");
+        roomTypeBox.addItem("SingleRoom");
+        roomTypeBox.addItem("DoubleRoom");
+        roomTypeBox.addItem("TripleRoom");
+        boardingTypeBox.addItem("Bed & Breakfast");
+        boardingTypeBox.addItem("Half Board");
+        boardingTypeBox.addItem("Full Board");
 
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -108,13 +107,13 @@ public class HotelManagement extends JFrame {
 
                 if (Pass.equals("123") && username.equalsIgnoreCase("Man")) {
                     subMenu.setVisible(true);
-                    addResident.setVisible(false);
-                    updateResident.setVisible(false);
-                    deleteResident.setVisible(false);
+                    checkInButton.setVisible(false);
+                    updateResidentButton.setVisible(false);
+                    checkOutButton.setVisible(false);
                 } else if (Pass.equals("456") && username.equalsIgnoreCase("Rec")) {
                     subMenu.setVisible(true);
-                    workersButton.setVisible(false);
-                    manageWorkers.setVisible(false);
+                    workerButton.setVisible(false);
+                    workerPanel.setVisible(false);
                     incomeButton.setVisible(false);
 
                     isReceptionist = true;
@@ -124,7 +123,7 @@ public class HotelManagement extends JFrame {
             }
         });
 
-        workersButton.addActionListener(new ActionListener() {
+        workerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String[] workerColumnNames = {"ID", "Name", "E-mail", "Phone Number", "Salary", "Job Title"};
@@ -146,13 +145,13 @@ public class HotelManagement extends JFrame {
                     }
                 };
 
-                workersTable.setModel(defaultTableModel);
+                workerTable.setModel(defaultTableModel);
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
                 cardLayout.show(contentPanel, "workerCard");
             }
         });
 
-        addWorker.addActionListener(new ActionListener() {
+        addWorkerPanelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
@@ -160,17 +159,17 @@ public class HotelManagement extends JFrame {
             }
         });
 
-        AddWorker_Button.addActionListener(new ActionListener() {
+        addWorkerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<String> workerData = new ArrayList<String>();
 
-                workerData.add(textField10.getText());
-                workerData.add(textField5.getText());
-                workerData.add(textField6.getText());
-                workerData.add(textField7.getText());
-                workerData.add(textField8.getText());
-                workerData.add(textField9.getText());
+                workerData.add(workerIdField.getText());
+                workerData.add(workerNameField.getText());
+                workerData.add(workerEmailField.getText());
+                workerData.add(workerPhoneField.getText());
+                workerData.add(workerSalaryField.getText());
+                workerData.add(workerTitleField.getText());
 
                 AddWorker addWorkerOp = new AddWorker(workerData);
 
@@ -186,17 +185,17 @@ public class HotelManagement extends JFrame {
             }
         });
 
-        updateWorker.addActionListener(new ActionListener() {
+        updateWorkerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<String> workerData = new ArrayList<String>();
 
-                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 0).toString());
-                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 1).toString());
-                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 2).toString());
-                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 3).toString());
-                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 4).toString());
-                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 5).toString());
+                workerData.add(workerTable.getValueAt(workerTable.getSelectedRow(), 0).toString());
+                workerData.add(workerTable.getValueAt(workerTable.getSelectedRow(), 1).toString());
+                workerData.add(workerTable.getValueAt(workerTable.getSelectedRow(), 2).toString());
+                workerData.add(workerTable.getValueAt(workerTable.getSelectedRow(), 3).toString());
+                workerData.add(workerTable.getValueAt(workerTable.getSelectedRow(), 4).toString());
+                workerData.add(workerTable.getValueAt(workerTable.getSelectedRow(), 5).toString());
 
                 EditWorker editWorkerOp = new EditWorker(workerData);
 
@@ -212,25 +211,25 @@ public class HotelManagement extends JFrame {
             }
         });
 
-        deleteWorker.addActionListener(new ActionListener() {
+        deleteWorkerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<String> workerData = new ArrayList<String>();
 
-                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 0).toString());
-                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 1).toString());
-                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 2).toString());
-                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 3).toString());
-                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 4).toString());
-                workerData.add(workersTable.getValueAt(workersTable.getSelectedRow(), 5).toString());
+                workerData.add(workerTable.getValueAt(workerTable.getSelectedRow(), 0).toString());
+                workerData.add(workerTable.getValueAt(workerTable.getSelectedRow(), 1).toString());
+                workerData.add(workerTable.getValueAt(workerTable.getSelectedRow(), 2).toString());
+                workerData.add(workerTable.getValueAt(workerTable.getSelectedRow(), 3).toString());
+                workerData.add(workerTable.getValueAt(workerTable.getSelectedRow(), 4).toString());
+                workerData.add(workerTable.getValueAt(workerTable.getSelectedRow(), 5).toString());
 
                 DeleteWorker deleteWorkerOp = new DeleteWorker(workerData);
 
                 try {
                     deleteWorkerOp.execute();
 
-                    DefaultTableModel model = (DefaultTableModel) workersTable.getModel();
-                    model.removeRow(workersTable.getSelectedRow());
+                    DefaultTableModel model = (DefaultTableModel) workerTable.getModel();
+                    model.removeRow(workerTable.getSelectedRow());
 
                     JOptionPane.showMessageDialog(HotelManagement.this, "Worker Deleted!");
                 } catch (Exception ex) {
@@ -241,7 +240,7 @@ public class HotelManagement extends JFrame {
             }
         });
 
-        residentsButton.addActionListener(new ActionListener() {
+        residentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String[] ResColumnNames = {"Name", "Age", "Phone Number", "Booking ID", "Services",
@@ -274,7 +273,7 @@ public class HotelManagement extends JFrame {
                     }
                 };
 
-                residentsTable.setModel(defaultTableModel);
+                residentTable.setModel(defaultTableModel);
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
                 cardLayout.show(contentPanel, "residentCard");
             }
@@ -288,7 +287,7 @@ public class HotelManagement extends JFrame {
             }
         });
 
-        showIncome.addActionListener(new ActionListener() {
+        showIncomeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (incomeBox.getSelectedIndex() == 0) {
@@ -299,11 +298,11 @@ public class HotelManagement extends JFrame {
                     report = new WeeklyReport();
                 }
 
-                incomeValue.setText(String.valueOf(report.generateReport()));
+                incomeField.setText(String.valueOf(report.generateReport()));
             }
         });
 
-        roomsButton.addActionListener(new ActionListener() {
+        roomButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String[] RoomsColumnNames = {"Room Number", "Room Type", "Room Availability"};
@@ -322,13 +321,13 @@ public class HotelManagement extends JFrame {
                     }
                 };
 
-                RoomsTable.setModel(defaultTableModel);
+                roomTable.setModel(defaultTableModel);
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
                 cardLayout.show(contentPanel, "RoomsCard");
             }
         });
 
-        addResident.addActionListener(new ActionListener() {
+        checkInButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
@@ -336,20 +335,20 @@ public class HotelManagement extends JFrame {
             }
         });
 
-        Book.addActionListener(new ActionListener() {
+        bookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<String> residentData = new ArrayList<String>();
                 ArrayList<String> bookingData = new ArrayList<String>();
 
-                residentData.add(textField1.getText());
-                residentData.add(textField3.getText());
-                residentData.add(textField2.getText());
+                residentData.add(residentNameField.getText());
+                residentData.add(residentAgeField.getText());
+                residentData.add(residentPhoneField.getText());
                 residentData.add("-1");
 
-                bookingData.add(textField4.getText());
-                bookingData.add(BoardingType_Combox.getSelectedItem().toString());
-                bookingData.add(RoomType_Combox.getSelectedItem().toString());
+                bookingData.add(residentDurationField.getText());
+                bookingData.add(boardingTypeBox.getSelectedItem().toString());
+                bookingData.add(roomTypeBox.getSelectedItem().toString());
 
                 AddBooking addBookingOp = new AddBooking(bookingData);
                 AddResident addResidentOp = new AddResident(residentData);
@@ -386,22 +385,22 @@ public class HotelManagement extends JFrame {
             }
         });
 
-        updateResident.addActionListener(new ActionListener() {
+        updateResidentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<String> residentData = new ArrayList<String>();
                 ArrayList<String> bookingData = new ArrayList<String>();
 
-                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 0).toString());
-                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 1).toString());
-                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 2).toString());
-                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 3).toString());
-                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 4).toString());
+                residentData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 0).toString());
+                residentData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 1).toString());
+                residentData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 2).toString());
+                residentData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 3).toString());
+                residentData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 4).toString());
 
-                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 3).toString());
-                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 5).toString());
-                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 7).toString());
-                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 8).toString());
+                bookingData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 3).toString());
+                bookingData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 5).toString());
+                bookingData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 7).toString());
+                bookingData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 8).toString());
 
                 EditResident editResidentOp = new EditResident(residentData);
                 EditBooking editBookingOp = new EditBooking(bookingData);
@@ -421,22 +420,22 @@ public class HotelManagement extends JFrame {
             }
         });
 
-        deleteResident.addActionListener(new ActionListener() {
+        checkOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<String> residentData = new ArrayList<String>();
                 ArrayList<String> bookingData = new ArrayList<String>();
 
-                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 0).toString());
-                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 1).toString());
-                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 2).toString());
-                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 3).toString());
-                residentData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 4).toString());
+                residentData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 0).toString());
+                residentData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 1).toString());
+                residentData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 2).toString());
+                residentData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 3).toString());
+                residentData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 4).toString());
 
-                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 3).toString());
-                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 5).toString());
-                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 7).toString());
-                bookingData.add(residentsTable.getValueAt(residentsTable.getSelectedRow(), 8).toString());
+                bookingData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 3).toString());
+                bookingData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 5).toString());
+                bookingData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 7).toString());
+                bookingData.add(residentTable.getValueAt(residentTable.getSelectedRow(), 8).toString());
 
                 DeleteResident deleteResidentOp = new DeleteResident(residentData);
 
